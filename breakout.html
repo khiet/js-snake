@@ -16,6 +16,9 @@
   let ballSpeedY = 10;
   let ballRadius = 10;
 
+  const BRICK_W = 100;
+  const BRICK_H = 50;
+
   const PADDLE_WIDTH = 100;
   const PADDLE_HEIGHT = 10;
   let paddle1X = 350;
@@ -46,6 +49,10 @@
       document.addEventListener('mousemove', controlPaddle1);
     });
   });
+
+  function drawBricks() {
+    colorRect(0, 0, BRICK_W, BRICK_H, 'blue');
+  }
 
   function controlPaddle1(e) {
     let mousePos = calculateMousePos(e);
@@ -142,6 +149,7 @@
 
   function drawAll() {
     colorRect(0, 0, canvas.width, canvas.height, 'black');
+    drawBricks();
 
     const paddleFloat = canvas.height - 50;
     paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
