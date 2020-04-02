@@ -18,7 +18,7 @@
 
   const BRICK_W = 100;
   const BRICK_H = 50;
-  const BRICK_COUNT = 4;
+  const BRICK_COUNT = 8;
   let brickGrid = new Array(BRICK_COUNT);
 
   const PADDLE_WIDTH = 100;
@@ -56,7 +56,11 @@
 
   function resetBricks() {
     for (let i = 0; i < BRICK_COUNT; i++) {
-      brickGrid[i] = true;
+      if (Math.random() < 0.5) {
+        brickGrid[i] = true;
+      } else {
+        brickGrid[i] = false;
+      }
     }
   }
 
