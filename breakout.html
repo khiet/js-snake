@@ -174,12 +174,22 @@
     const paddleFloat = canvas.height - 50;
     paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
     colorRect(paddle1X, paddleFloat, PADDLE_WIDTH, PADDLE_HEIGHT, 'white');
-    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
+
+    showDebugInfo();
 
     // at start (when ballX and ballY are 0), hide ball
     if (ballX && ballY) {
       colorCircle(ballX, ballY, ballRadius, 'white');
     }
+  }
+
+  function showDebugInfo() {
+    // mouse position
+    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
+    // row and column at mouse position
+    let mouseBrickRow = Math.floor(mouseY/BRICK_H);
+    let mouseBrickColumn = Math.floor(mouseX/BRICK_W);
+    colorText(`(${mouseBrickRow},${mouseBrickColumn})`, 5, 40, 'yellow');
   }
 </script>
 
