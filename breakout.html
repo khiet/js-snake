@@ -25,6 +25,9 @@
   let startRound = false;
   const BALL_PAUSE_DURATION = 1000;
 
+  let mouseX;
+  let mouseY;
+
   document.addEventListener('DOMContentLoaded', function () {
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext('2d');
@@ -69,8 +72,8 @@
   function calculateMousePos(event) {
     let rect = canvas.getBoundingClientRect();
     let root = document.documentElement;
-    let mouseX = event.clientX - rect.left - root.scrollLeft;
-    let mouseY = event.clientY - rect.top - root.scrollTop;
+    mouseX = event.clientX - rect.left - root.scrollLeft;
+    mouseY = event.clientY - rect.top - root.scrollTop;
     let result = {
       x: mouseX,
       y: mouseY
@@ -131,12 +134,19 @@
     canvasContext.fill();
   }
 
+  function colorText(text, x, y, color) {
+    canvasContext.font = "normal 16px Arial";
+    canvasContext.fillStyle = color;
+    canvasContext.fillText(text, x, y);
+  }
+
   function drawEverything() {
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     const paddleFloat = canvas.height - 50;
     paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
     colorRect(paddle1X, paddleFloat, PADDLE_WIDTH, PADDLE_HEIGHT, 'white');
+    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 20, 20, 'yellow');
 
     // at start (when ballX and ballY are 0), hide ball
     if (ballX && ballY) {
@@ -147,8 +157,6 @@
 
 <style>
   body {
-    height: 90vh;
-    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
