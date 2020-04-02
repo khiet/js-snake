@@ -146,7 +146,7 @@
     const paddleFloat = canvas.height - 50;
     paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
     colorRect(paddle1X, paddleFloat, PADDLE_WIDTH, PADDLE_HEIGHT, 'white');
-    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 20, 20, 'yellow');
+    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
 
     // at start (when ballX and ballY are 0), hide ball
     if (ballX && ballY) {
@@ -164,16 +164,16 @@
   }
 
   .start-button {
-    margin-top: 5vh;
+    margin-top: 10px;
     background-color: black;
     color: white;
-    padding: 8px 10px;
-    font-size: 20px;
+    padding: 8px 16px;
+    font-size: 16px;
   }
 </style>
 
 <body>
-  <canvas id='gameCanvas' width='800' height='500'></canvas>
+  <canvas id='gameCanvas' width='800' height='600'></canvas>
   <div class="start">
     <button class="js-start-button start-button">
       START
