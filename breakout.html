@@ -18,10 +18,8 @@
 
   const BRICK_W = 100;
   const BRICK_H = 50;
-  let brick0 = true;
-  let brick1 = true;
-  let brick2 = true;
-  let brick3 = true;
+  const BRICK_COUNT = 4;
+  let brickGrid = new Array(BRICK_COUNT);
 
   const PADDLE_WIDTH = 100;
   const PADDLE_HEIGHT = 10;
@@ -42,6 +40,8 @@
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
 
+    resetBricks();
+
     document.querySelector('.js-start-button').addEventListener('click', function () {
       resetBall();
 
@@ -54,23 +54,19 @@
     });
   });
 
+  function resetBricks() {
+    for (let i = 0; i < BRICK_COUNT; i++) {
+      brickGrid[i] = true;
+    }
+  }
+
   function drawBricks() {
     const brickMargin = 2;
 
-    if (brick0) {
-      colorRect(0, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
-    }
-
-    if (brick1) {
-      colorRect(BRICK_W * 1, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
-    }
-
-    if (brick2) {
-      colorRect(BRICK_W * 2, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
-    }
-
-    if (brick3) {
-      colorRect(BRICK_W * 3, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
+    for (let i = 0; i < BRICK_COUNT; i++) {
+      if (brickGrid[i]) {
+        colorRect(BRICK_W * i, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
+      }
     }
   }
 
