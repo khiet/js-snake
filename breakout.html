@@ -83,12 +83,12 @@
   }
   function callBoth() {
     if (startRound) {
-      moveEverything();
+      moveAll();
     }
-    drawEverything();
+    drawAll();
   }
 
-  function moveEverything() {
+  function moveAll() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
@@ -140,7 +140,7 @@
     canvasContext.fillText(text, x, y);
   }
 
-  function drawEverything() {
+  function drawAll() {
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     const paddleFloat = canvas.height - 50;
