@@ -152,7 +152,9 @@
     }
 
     if (ballY > canvas.height) {
-      resetBall();
+      // resetBall();
+      ballY += -ballSpeedY;
+      ballSpeedY = -ballSpeedY;
     }
 
     let brickIndex = brickIndexAt(mouseX, mouseY);
