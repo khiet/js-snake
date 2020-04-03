@@ -164,8 +164,22 @@
     let brickIndex = brickIndexAt(ballX, ballY);
     if (brickIndex >= 0 && brickIndex < brickGrid.length && ballX < canvas.width) {
       if (brickGrid[brickIndex]) {
+
+        let previousBrickRowColumn = brickRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
+        let currentBrickRowColumn = brickRowColumnAt(ballX, ballY);
+        let diffRow = previousBrickRowColumn.row != currentBrickRowColumn.row;
+        let diffColumn = previousBrickRowColumn.column != currentBrickRowColumn.column;
+
         brickGrid[brickIndex] = false;
-        ballSpeedY = -ballSpeedY;
+        // ball hits left or right of the brick (ball comes from different column)
+        if (diffColumn) {
+          ballSpeedX = -ballSpeedX;
+        }
+        // ball hits bottom or top of the brick (ball comes from different row)
+        if (diffRow) {
+          ballSpeedY = -ballSpeedY;
+        }
+        // ball hits corner of the brick if both conditions are true i.e. differnt direction for X and Y
       }
     }
   }
