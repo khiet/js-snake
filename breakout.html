@@ -162,7 +162,7 @@
 
   function ballBrickHandling() {
     let brickIndex = brickIndexAt(ballX, ballY);
-    if (brickIndex >= 0 && brickIndex < brickGrid.length) {
+    if (brickIndex >= 0 && brickIndex < brickGrid.length && ballX < canvas.width) {
       if (brickGrid[brickIndex]) {
         brickGrid[brickIndex] = false;
         ballSpeedY = -ballSpeedY;
