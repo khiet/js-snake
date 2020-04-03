@@ -157,7 +157,7 @@
       ballSpeedY = -ballSpeedY;
     }
 
-    let brickIndex = brickIndexAt(mouseX, mouseY);
+    let brickIndex = brickIndexAt(ballX, ballY);
     if (brickIndex >= 0 && brickIndex < brickGrid.length) {
       brickGrid[brickIndex] = false;
     }
