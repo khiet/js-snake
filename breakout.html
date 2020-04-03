@@ -72,9 +72,9 @@
 
     for (let i = 0; i < BRICK_ROWS; i++) {
       for (let j = 0; j < BRICK_COLUMNS; j++) {
-        rowStartIndex = i * BRICK_COLUMNS;
+        let arrayIndex = arrayIndexAtRowColumn(i, j);
 
-        if (brickGrid[rowStartIndex + j]) {
+        if (brickGrid[arrayIndex]) {
           colorRect(BRICK_W * j, BRICK_H * i, BRICK_W - brickMargin, BRICK_H - brickMargin, 'blue');
         }
       }
@@ -190,6 +190,10 @@
     }
   }
 
+  function arrayIndexAtRowColumn(row, column) {
+    return (row * BRICK_COLUMNS) + column;
+  }
+
   function showDebugInfo() {
     // mouse position
     colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
@@ -197,6 +201,8 @@
     let mouseBrickRow = Math.floor(mouseY / BRICK_H);
     let mouseBrickColumn = Math.floor(mouseX / BRICK_W);
     colorText(`(${mouseBrickRow},${mouseBrickColumn})`, 5, 40, 'yellow');
+    // array index at row and column
+    colorText(arrayIndexAtRowColumn(mouseBrickRow, mouseBrickColumn), 5, 60, 'yellow');
   }
 </script>
 
