@@ -72,9 +72,9 @@
 
     for (let i = 0; i < BRICK_ROWS; i++) {
       for (let j = 0; j < BRICK_COLUMNS; j++) {
-        let arrayIndex = arrayIndexAtRowColumn(i, j);
+        let brickIndex = brickIndexAtRowColumn(i, j);
 
-        if (brickGrid[arrayIndex]) {
+        if (brickGrid[brickIndex]) {
           colorRect(BRICK_W * j, BRICK_H * i, BRICK_W - brickMargin, BRICK_H - brickMargin, 'blue');
         }
       }
@@ -154,6 +154,11 @@
     if (ballY > canvas.height) {
       resetBall();
     }
+
+    let brickIndex = brickIndexAt(mouseX, mouseY);
+    if (brickIndex >= 0 && brickIndex < brickGrid.length) {
+      brickGrid[brickIndex] = false;
+    }
   }
 
   function colorRect(x, y, width, height, color) {
@@ -190,19 +195,30 @@
     }
   }
 
-  function arrayIndexAtRowColumn(row, column) {
+  function brickIndexAt(x, y) {
+    let brickRowColumn = brickRowColumnAt(x, y);
+    return brickIndexAtRowColumn(brickRowColumn.row, brickRowColumn.column);
+  }
+
+  function brickIndexAtRowColumn(row, column) {
     return (row * BRICK_COLUMNS) + column;
+  }
+
+  function brickRowColumnAt(x, y) {
+    return {
+      row: Math.floor(y / BRICK_H),
+      column: Math.floor(x / BRICK_W)
+    }
   }
 
   function showDebugInfo() {
     // mouse position
     colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
     // row and column at mouse position
-    let mouseBrickRow = Math.floor(mouseY / BRICK_H);
-    let mouseBrickColumn = Math.floor(mouseX / BRICK_W);
-    colorText(`(${mouseBrickRow},${mouseBrickColumn})`, 5, 40, 'yellow');
+    let brickRowColumnAtMousePos = brickRowColumnAt(mouseX, mouseY);
+    colorText(`(${brickRowColumnAtMousePos.row},${brickRowColumnAtMousePos.column})`, 5, 40, 'yellow');
     // array index at row and column
-    colorText(arrayIndexAtRowColumn(mouseBrickRow, mouseBrickColumn), 5, 60, 'yellow');
+    colorText(brickIndexAt(mouseX, mouseY), 5, 60, 'yellow');
   }
 </script>
 
