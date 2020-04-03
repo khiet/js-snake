@@ -18,7 +18,9 @@
 
   const BRICK_W = 100;
   const BRICK_H = 50;
-  const BRICK_COUNT = 8;
+  const BRICK_ROWS = 4;
+  const BRICK_COLUMNS = 8;
+  const BRICK_COUNT = BRICK_ROWS * BRICK_COLUMNS;
   let brickGrid = new Array(BRICK_COUNT);
 
   const PADDLE_WIDTH = 100;
@@ -67,9 +69,13 @@
   function drawBricks() {
     const brickMargin = 2;
 
-    for (let i = 0; i < BRICK_COUNT; i++) {
-      if (brickGrid[i]) {
-        colorRect(BRICK_W * i, 0, BRICK_W - brickMargin, BRICK_H, 'blue');
+    for (let i = 0; i < BRICK_ROWS; i++) {
+      for (let j = 0; j < BRICK_COLUMNS; j++) {
+        rowStartIndex = i * BRICK_COLUMNS;
+
+        if (brickGrid[rowStartIndex + j]) {
+          colorRect(BRICK_W * j, BRICK_H * i, BRICK_W - brickMargin, BRICK_H - brickMargin, 'blue');
+        }
       }
     }
   }
@@ -187,8 +193,8 @@
     // mouse position
     colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
     // row and column at mouse position
-    let mouseBrickRow = Math.floor(mouseY/BRICK_H);
-    let mouseBrickColumn = Math.floor(mouseX/BRICK_W);
+    let mouseBrickRow = Math.floor(mouseY / BRICK_H);
+    let mouseBrickColumn = Math.floor(mouseX / BRICK_W);
     colorText(`(${mouseBrickRow},${mouseBrickColumn})`, 5, 40, 'yellow');
   }
 </script>
