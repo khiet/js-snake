@@ -44,9 +44,9 @@
     setInterval(callBoth, 1000 / fps);
 
     resetBricks();
-
     document.querySelector('.js-start-button').addEventListener('click', function () {
       resetBall();
+      resetBricks();
 
       startRound = false;
       setTimeout(function () {
@@ -59,7 +59,7 @@
 
   function resetBricks() {
     for (let i = 0; i < BRICK_COUNT; i++) {
-      if (Math.random() < 0.5) {
+      if (Math.random() < 1.0) {
         brickGrid[i] = true;
       } else {
         brickGrid[i] = false;
@@ -96,10 +96,10 @@
     }, BALL_PAUSE_DURATION);
 
     // set ball at center
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
+    ballX = 100;
+    ballY = 100;
 
-    ballSpeedX = 0;
+    ballSpeedX = 10;
     ballSpeedY = 10;
   }
 
