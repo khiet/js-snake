@@ -159,7 +159,10 @@
 
     let brickIndex = brickIndexAt(ballX, ballY);
     if (brickIndex >= 0 && brickIndex < brickGrid.length) {
-      brickGrid[brickIndex] = false;
+      if (brickGrid[brickIndex]) {
+        brickGrid[brickIndex] = false;
+        ballSpeedY = -ballSpeedY;
+      }
     }
   }
 
