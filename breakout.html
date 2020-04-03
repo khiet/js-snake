@@ -122,7 +122,7 @@
     drawAll();
   }
 
-  function moveAll() {
+  function ballMove() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
@@ -141,6 +141,14 @@
       ballSpeedY = -ballSpeedY;
     }
 
+    if (ballY > canvas.height) {
+      // resetBall();
+      ballY += -ballSpeedY;
+      ballSpeedY = -ballSpeedY;
+    }
+  }
+
+  function ballPaddling() {
     if (ballY > paddleCollisionY) {
       if (paddle1Pos.left < ballX && paddle1Pos.right > ballX) {
         ballY -= ballSpeedY;
@@ -150,13 +158,9 @@
         ballSpeedX = deltaX * 0.35;
       }
     }
+  }
 
-    if (ballY > canvas.height) {
-      // resetBall();
-      ballY += -ballSpeedY;
-      ballSpeedY = -ballSpeedY;
-    }
-
+  function ballBrickHandling() {
     let brickIndex = brickIndexAt(ballX, ballY);
     if (brickIndex >= 0 && brickIndex < brickGrid.length) {
       if (brickGrid[brickIndex]) {
@@ -164,6 +168,12 @@
         ballSpeedY = -ballSpeedY;
       }
     }
+  }
+
+  function moveAll() {
+    ballMove();
+    ballPaddling();
+    ballBrickHandling();
   }
 
   function colorRect(x, y, width, height, color) {
