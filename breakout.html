@@ -175,6 +175,7 @@
         let currentBrickRowColumn = brickRowColumnAt(ballX, ballY);
         let diffRow = previousBrickRowColumn.row != currentBrickRowColumn.row;
         let diffColumn = previousBrickRowColumn.column != currentBrickRowColumn.column;
+        let ballDirection = directionAtSpeed(ballSpeedX, ballSpeedY);
 
         brickGrid[brickIndex] = false;
         // ball hits left or right of the brick (ball comes from different column)
@@ -185,9 +186,64 @@
         if (diffRow) {
           ballSpeedY = -ballSpeedY;
         }
-        // ball hits corner of the brick if both conditions are true i.e. differnt direction for X and Y
+        // ball hits corner of the brick
+        if (diffColumn && diffRow) {
+          if (ballDirection === 0) {
+            if (brickGrid[brickIndex - BRICK_COLUMNS]) {
+              ballSpeedY = -ballSpeedY;
+            }
+            if (brickGrid[brickIndex - 1]) {
+              ballSpeedX = -ballSpeedX;
+            }
+          }
+          if (ballDirection === 1) {
+            if (brickGrid[brickIndex - BRICK_COLUMNS]) {
+              ballSpeedY = -ballSpeedY;
+            }
+            if (brickGrid[brickIndex + 1]) {
+              ballSpeedX = -ballSpeedX;
+            }
+          }
+          if (ballDirection === 2) {
+            if (brickGrid[brickIndex + BRICK_COLUMNS]) {
+              ballSpeedY = -ballSpeedY;
+            }
+            if (brickGrid[brickIndex + 1]) {
+              ballSpeedX = -ballSpeedX;
+            }
+          }
+          if (ballDirection === 3) {
+            if (brickGrid[brickIndex + BRICK_COLUMNS]) {
+              ballSpeedY = -ballSpeedY;
+            }
+            if (brickGrid[brickIndex - 1]) {
+              ballSpeedX = -ballSpeedX;
+            }
+          }
+        }
       }
     }
+  }
+
+  // 0: top left, 1: top right, 2: bottom right, 3: bottom left
+  function directionAtSpeed(speedX, speedY) {
+    let direction;
+
+    if (speedX > 0) {
+      if (speedY > 0) {
+        direction = 0;
+      } else {
+        direction = 3;
+      }
+    } else {
+      if (speedY < 0) {
+        direction = 2;
+      } else {
+        direction = 1;
+      }
+    }
+
+    return direction;
   }
 
   function moveAll() {
