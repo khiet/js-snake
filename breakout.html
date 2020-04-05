@@ -21,7 +21,7 @@
   const BRICK_COUNT = BRICK_ROWS * BRICK_COLUMNS;
   // 800 is canvas width
   const BRICK_W = 800 / BRICK_COLUMNS;
-  const BRICK_H = 20;
+  const BRICK_H = 40;
   let brickGrid = new Array(BRICK_COUNT);
 
   const PADDLE_WIDTH = 100;
@@ -87,6 +87,12 @@
     paddle1X = mousePos.x - (PADDLE_WIDTH / 2);
 
     paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
+
+    ballX = mousePos.x;
+    ballY = mousePos.y;
+
+    ballSpeedX = 4;
+    ballSpeedY = -4;
   }
 
   function resetBall() {
