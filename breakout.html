@@ -195,35 +195,59 @@
         }
         // ball hits corner of the brick
         if (diffColumn && diffRow) {
+          const topBrick = brickGrid[brickIndex - BRICK_COLUMNS];
+          const bottomBrick = brickGrid[brickIndex + BRICK_COLUMNS];
+          const leftBrick = brickGrid[brickIndex - 1];
+          const rightBrick = brickGrid[brickIndex + 1];
+
           if (ballDirection === directions.TOP_LEFT) {
-            if (brickGrid[brickIndex - BRICK_COLUMNS]) {
+            if (topBrick && leftBrick) {
+              return;
+            }
+
+            if (topBrick) {
               ballSpeedY = -ballSpeedY;
             }
-            if (brickGrid[brickIndex - 1]) {
+            if (leftBrick) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.TOP_RIGHT) {
-            if (brickGrid[brickIndex - BRICK_COLUMNS]) {
+            if (topBrick && rightBrick) {
+              return;
+            }
+
+            if (topBrick) {
               ballSpeedY = -ballSpeedY;
             }
-            if (brickGrid[brickIndex + 1]) {
+            if (rightBrick) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.BOTTOM_RIGHT) {
-            if (brickGrid[brickIndex + BRICK_COLUMNS]) {
+            if (bottomBrick && rightBrick) {
+              return;
+            }
+
+            if (bottomBrick) {
               ballSpeedY = -ballSpeedY;
             }
-            if (brickGrid[brickIndex + 1]) {
+            if (rightBrick) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.BOTTOM_LEFT) {
-            if (brickGrid[brickIndex + BRICK_COLUMNS]) {
+            const bottomBrick = brickGrid[brickIndex + BRICK_COLUMNS];
+            const leftBrick = brickGrid[brickIndex - 1];
+
+            if (bottomBrick && leftBrick) {
+              return;
+            }
+
+            if (bottomBrick) {
               ballSpeedY = -ballSpeedY;
             }
-            if (brickGrid[brickIndex - 1]) {
+            if (leftBrick) {
               ballSpeedX = -ballSpeedX;
             }
           }
