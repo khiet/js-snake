@@ -12,16 +12,16 @@
   let ballX = 0;
   let ballY = 0;
   // at start of each round, ball will move either left or right, top or bottom
-  let ballSpeedX = 0;
+  let ballSpeedX = 10;
   let ballSpeedY = 10;
   let ballRadius = 10;
 
-  const BRICK_ROWS = 10;
+  const BRICK_ROWS = 14;
   const BRICK_COLUMNS = 10;
   const BRICK_COUNT = BRICK_ROWS * BRICK_COLUMNS;
   // 800 is canvas width
   const BRICK_W = 800 / BRICK_COLUMNS;
-  const BRICK_H = 40;
+  const BRICK_H = 20;
   let brickGrid = new Array(BRICK_COUNT);
   let brickLeft = BRICK_COUNT;
 
@@ -111,8 +111,8 @@
     }, BALL_PAUSE_DURATION);
 
     // set ball at center
-    ballX = 100;
-    ballY = 100;
+    ballX = canvas.width / 2;
+    ballY = canvas.height / 2;
 
     ballSpeedX = 10;
     ballSpeedY = 10;
