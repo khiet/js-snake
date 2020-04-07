@@ -36,6 +36,13 @@
   let mouseX;
   let mouseY;
 
+  const directions = {
+    TOP_LEFT: 0,
+    TOP_RIGHT: 1,
+    BOTTOM_RIGHT: 2,
+    BOTTOM_LEFT: 3,
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext('2d');
@@ -188,7 +195,7 @@
         }
         // ball hits corner of the brick
         if (diffColumn && diffRow) {
-          if (ballDirection === 0) {
+          if (ballDirection === directions.TOP_LEFT) {
             if (brickGrid[brickIndex - BRICK_COLUMNS]) {
               ballSpeedY = -ballSpeedY;
             }
@@ -196,7 +203,7 @@
               ballSpeedX = -ballSpeedX;
             }
           }
-          if (ballDirection === 1) {
+          if (ballDirection === directions.TOP_RIGHT) {
             if (brickGrid[brickIndex - BRICK_COLUMNS]) {
               ballSpeedY = -ballSpeedY;
             }
@@ -204,7 +211,7 @@
               ballSpeedX = -ballSpeedX;
             }
           }
-          if (ballDirection === 2) {
+          if (ballDirection === directions.BOTTOM_RIGHT) {
             if (brickGrid[brickIndex + BRICK_COLUMNS]) {
               ballSpeedY = -ballSpeedY;
             }
@@ -212,7 +219,7 @@
               ballSpeedX = -ballSpeedX;
             }
           }
-          if (ballDirection === 3) {
+          if (ballDirection === directions.BOTTOM_LEFT) {
             if (brickGrid[brickIndex + BRICK_COLUMNS]) {
               ballSpeedY = -ballSpeedY;
             }
@@ -225,25 +232,20 @@
     }
   }
 
-  // 0: top left, 1: top right, 2: bottom right, 3: bottom left
   function directionAtSpeed(speedX, speedY) {
-    let direction;
-
     if (speedX > 0) {
       if (speedY > 0) {
-        direction = 0;
+        return directions.TOP_LEFT;
       } else {
-        direction = 3;
+        return directions.BOTTOM_LEFT;
       }
     } else {
       if (speedY < 0) {
-        direction = 2;
+        return directions.BOTTOM_RIGHT;
       } else {
-        direction = 1;
+        return directions.TOP_RIGHT;
       }
     }
-
-    return direction;
   }
 
   function moveAll() {
