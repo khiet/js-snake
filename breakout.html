@@ -23,6 +23,7 @@
   const BRICK_W = 800 / BRICK_COLUMNS;
   const BRICK_H = 40;
   let brickGrid = new Array(BRICK_COUNT);
+  let brickLeft = BRICK_COUNT;
 
   const PADDLE_WIDTH = 100;
   const PADDLE_HEIGHT = 10;
@@ -65,6 +66,7 @@
   });
 
   function resetBricks() {
+    brickLeft = BRICK_COUNT;
     for (let i = 0; i < BRICK_COUNT; i++) {
       if (Math.random() < 1.0) {
         brickGrid[i] = true;
@@ -185,6 +187,8 @@
         let ballDirection = directionAtSpeed(ballSpeedX, ballSpeedY);
 
         brickGrid[brickIndex] = false;
+        brickLeft--;
+        console.log(brickLeft);
         // ball hits left or right of the brick (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
