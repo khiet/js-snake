@@ -7,9 +7,10 @@
   <title>Document</title>
 </head>
 <script>
-  // default row number and ball speed level (configurable)
+  // configurable options
   let selectedRowNumber = 6;
   let selectedBallSpeedLevel = 2;
+  let hasBrokenBrock = true;
 
   let canvas;
   let canvasContext;
@@ -75,6 +76,10 @@
     document.querySelector('.js-row-number-select').addEventListener('change', function (e) {
       selectedRowNumber = e.currentTarget.value;
     });
+
+    document.querySelector('.js-include-broken-brick').addEventListener('change', function (e) {
+      hasBrokenBrock = (e.currentTarget.value == 'yes');
+    });
   });
 
   function resetBricks() {
@@ -85,7 +90,11 @@
         brickGrid[i] = false;
       } else {
         brickLeft++;
-        brickGrid[i] = true;
+        if (hasBrokenBrock && Math.random() < 0.2) {
+          brickGrid[i] = false;
+        } else {
+          brickGrid[i] = true;
+        }
       }
     }
   }
@@ -375,6 +384,10 @@
     margin-top: 5px;
   }
 
+  .include-broken-brick-select {
+    margin-top: 5px;
+  }
+
   .start-button {
     margin-top: 10px;
     background-color: black;
@@ -409,6 +422,25 @@
       <option value="8">8</option>
       <option value="9">9</option>
       <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+    </select>
+  </div>
+  <div class="include-broken-brick-select">
+    <label class="include-broken-brick-label">
+      INCLUDE EMPTY BRICK
+    </label>
+    <select name="include-broken-brick" class="js-include-broken-brick">
+      <option value="yes" selected="selected">Yes</option>
+      <option value="no">No</option>
     </select>
   </div>
   <div class="start">
