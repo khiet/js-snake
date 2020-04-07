@@ -12,8 +12,8 @@
   let ballX = 0;
   let ballY = 0;
   // at start of each round, ball will move either left or right, top or bottom
-  let ballSpeedX = 10;
-  let ballSpeedY = 10;
+  let ballSpeedX = 0;
+  let ballSpeedY = 0;
   let ballRadius = 10;
 
   const BRICK_ROWS = 14;
@@ -72,7 +72,6 @@
       if (i < BRICK_COLUMNS * TOP_GATTER_ROWS) {
         brickGrid[i] = false;
       } else {
-        console.log(i);
         brickLeft++;
         brickGrid[i] = true;
       }
@@ -100,11 +99,11 @@
 
     paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
 
-    ballX = mousePos.x;
-    ballY = mousePos.y;
+    // ballX = mousePos.x;
+    // ballY = mousePos.y;
 
-    ballSpeedX = 4;
-    ballSpeedY = -4;
+    // ballSpeedX = 5;
+    // ballSpeedY = -5;
   }
 
   function resetBall() {
@@ -115,9 +114,9 @@
 
     // set ball at center
     ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
+    ballY = canvas.height * 0.75
 
-    ballSpeedX = 10;
+    ballSpeedX = 0;
     ballSpeedY = 10;
   }
 
@@ -160,15 +159,18 @@
     }
 
     if (ballY > canvas.height) {
-      // resetBall();
-      ballY += -ballSpeedY;
-      ballSpeedY = -ballSpeedY;
+      resetBall();
+      resetBricks();
     }
   }
 
   function ballPaddling() {
     if (ballY > paddleCollisionY) {
       if (paddle1Pos.left < ballX && paddle1Pos.right > ballX) {
+        if (brickLeft <= 0) {
+          resetBricks(); 
+        }
+
         ballY -= ballSpeedY;
         ballSpeedY = -ballSpeedY;
 
@@ -191,7 +193,6 @@
 
         brickGrid[brickIndex] = false;
         brickLeft--;
-        console.log(brickLeft);
         // ball hits left or right of the brick (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
