@@ -180,7 +180,7 @@
 
   function ballBrickHandling() {
     let brickIndex = brickIndexAt(ballX, ballY);
-    if (brickIndex >= 0 && brickIndex < brickGrid.length && ballX < canvas.width) {
+    if (brickIndex >= 0 && brickIndex < brickGrid.length && ballX > 0 && ballX < canvas.width) {
       if (brickGrid[brickIndex]) {
 
         let previousBrickRowColumn = brickRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
