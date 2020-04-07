@@ -7,6 +7,10 @@
   <title>Document</title>
 </head>
 <script>
+  // default row number and ball speed level (configurable)
+  let selectedRowNumber = 6;
+  let selectedBallSpeedLevel = 2;
+
   let canvas;
   let canvasContext;
   let ballX = 0;
@@ -16,13 +20,12 @@
   let ballSpeedY = 0;
   let ballRadius = 10;
 
-  const BRICK_ROWS = 14;
+  let brickRows = selectedRowNumber;
   const BRICK_COLUMNS = 10;
-  const BRICK_COUNT = BRICK_ROWS * BRICK_COLUMNS;
   // 800 is canvas width
   const BRICK_W = 800 / BRICK_COLUMNS;
   const BRICK_H = 20;
-  let brickGrid = new Array(BRICK_COUNT);
+  let brickGrid = new Array(brickRows * BRICK_COLUMNS);
   let brickLeft = 0;
   const TOP_GATTER_ROWS = 3;
 
@@ -30,7 +33,7 @@
   const PADDLE_HEIGHT = 10;
   let paddle1X = 350;
   let paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
-  paddleCollisionY = 0;
+  let paddleCollisionY = 0;
 
   let startRound = false;
   const BALL_PAUSE_DURATION = 1000;
@@ -64,11 +67,20 @@
 
       document.addEventListener('mousemove', controlPaddle1);
     });
+
+    document.querySelector('.js-ball-speed-level-select').addEventListener('change', function (e) {
+      selectedBallSpeedLevel = e.currentTarget.value;
+    });
+
+    document.querySelector('.js-row-number-select').addEventListener('change', function (e) {
+      selectedRowNumber = e.currentTarget.value;
+    });
   });
 
   function resetBricks() {
+    brickRows = selectedRowNumber;
     brickLeft = 0;
-    for (let i = 0; i < BRICK_COUNT; i++) {
+    for (let i = 0; i < brickRows * BRICK_COLUMNS; i++) {
       if (i < BRICK_COLUMNS * TOP_GATTER_ROWS) {
         brickGrid[i] = false;
       } else {
@@ -81,7 +93,7 @@
   function drawBricks() {
     const brickMargin = 2;
 
-    for (let i = 0; i < BRICK_ROWS; i++) {
+    for (let i = 0; i < brickRows; i++) {
       for (let j = 0; j < BRICK_COLUMNS; j++) {
         let brickIndex = brickIndexAtRowColumn(i, j);
 
@@ -117,7 +129,7 @@
     ballY = canvas.height * 0.75
 
     ballSpeedX = 0;
-    ballSpeedY = 10;
+    ballSpeedY = selectedBallSpeedLevel * 5;
   }
 
   function calculateMousePos(event) {
@@ -168,7 +180,7 @@
     if (ballY > paddleCollisionY) {
       if (paddle1Pos.left < ballX && paddle1Pos.right > ballX) {
         if (brickLeft <= 0) {
-          resetBricks(); 
+          resetBricks();
         }
 
         ballY -= ballSpeedY;
@@ -355,6 +367,14 @@
     flex-direction: column;
   }
 
+  .ball-speed-level-select {
+    margin-top: 10px;
+  }
+
+  .row-number-select {
+    margin-top: 5px;
+  }
+
   .start-button {
     margin-top: 10px;
     background-color: black;
@@ -366,6 +386,31 @@
 
 <body>
   <canvas id='gameCanvas' width='800' height='600'></canvas>
+  <div class="ball-speed-level-select">
+    <label class="ball-speed-level-label">
+      BALL SPEED LEVEL
+    </label>
+    <select name="ball-speed-level" class="js-ball-speed-level-select">
+      <option value="1">1</option>
+      <option value="2" selected="selected">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+  </div>
+  <div class="row-number-select">
+    <label class="row-number-label">
+      ROW NUMBER
+    </label>
+    <select name="row-number" class="js-row-number-select">
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6" selected="selected">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select>
+  </div>
   <div class="start">
     <button class="js-start-button start-button">
       START
