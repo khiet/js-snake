@@ -23,7 +23,8 @@
   const BRICK_W = 800 / BRICK_COLUMNS;
   const BRICK_H = 20;
   let brickGrid = new Array(BRICK_COUNT);
-  let brickLeft = BRICK_COUNT;
+  let brickLeft = 0;
+  const TOP_GATTER_ROWS = 3;
 
   const PADDLE_WIDTH = 100;
   const PADDLE_HEIGHT = 10;
@@ -66,12 +67,14 @@
   });
 
   function resetBricks() {
-    brickLeft = BRICK_COUNT;
+    brickLeft = 0;
     for (let i = 0; i < BRICK_COUNT; i++) {
-      if (Math.random() < 1.0) {
-        brickGrid[i] = true;
-      } else {
+      if (i < BRICK_COLUMNS * TOP_GATTER_ROWS) {
         brickGrid[i] = false;
+      } else {
+        console.log(i);
+        brickLeft++;
+        brickGrid[i] = true;
       }
     }
   }
