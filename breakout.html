@@ -12,6 +12,12 @@
   let selectedBallSpeedLevel = 2;
   let hasBrokenBrock = true;
 
+  let score = 0;
+  let lives = 3;
+  let showGameOver = false;
+  let startRound = false;
+  const BALL_PAUSE_DURATION = 1000;
+
   let canvas;
   let canvasContext;
   let ballX = 0;
@@ -36,9 +42,6 @@
   let paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
   let paddleCollisionY = 0;
 
-  let startRound = false;
-  const BALL_PAUSE_DURATION = 1000;
-
   let mouseX;
   let mouseY;
 
@@ -62,6 +65,9 @@
       resetBricks();
 
       startRound = false;
+      lives = 3;
+      score = 0;
+      showGameOver = false;
       setTimeout(function () {
         startRound = true;
       }, BALL_PAUSE_DURATION);
@@ -154,7 +160,7 @@
     return result;
   }
   function callBoth() {
-    if (startRound) {
+    if (startRound && !showGameOver) {
       moveAll();
     }
     drawAll();
@@ -182,6 +188,11 @@
     if (ballY > canvas.height) {
       resetBall();
       resetBricks();
+      lives--;
+
+      if (lives <= 0) {
+        showGameOver = true;
+      }
     }
   }
 
@@ -214,6 +225,7 @@
 
         brickGrid[brickIndex] = false;
         brickLeft--;
+        score++;
         // ball hits left or right of the brick (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
@@ -319,8 +331,10 @@
     canvasContext.fill();
   }
 
-  function colorText(text, x, y, color) {
-    canvasContext.font = "normal 16px Arial";
+  function colorText(text, x, y, color, size = 16, textAlign = 'left') {
+    canvasContext.textAlign = textAlign;
+    canvasContext.font = `normal ${size}px Arial`;
+
     canvasContext.fillStyle = color;
     canvasContext.fillText(text, x, y);
   }
@@ -328,6 +342,16 @@
   function drawAll() {
     colorRect(0, 0, canvas.width, canvas.height, 'black');
     drawBricks();
+
+    colorText(`SCORE ${score}`, 5, 20, 'white');
+    colorText(`LIVES ${lives}`, 5, 40, 'white');
+
+    if (showGameOver) {
+      colorText('GAME OVER', canvas.width / 2, canvas.height / 2, 'white', 48, 'center');
+      // hide ball
+      ballX = 0;
+      ballY = 0;
+    }
 
     const paddleFloat = canvas.height - 50;
     paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
@@ -358,13 +382,14 @@
   }
 
   function showDebugInfo() {
+    const yPosition = canvas.height / 2;
     // mouse position
-    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, 20, 'yellow');
+    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, yPosition, 'yellow');
     // row and column at mouse position
     let brickRowColumnAtMousePos = brickRowColumnAt(mouseX, mouseY);
-    colorText(`(${brickRowColumnAtMousePos.row},${brickRowColumnAtMousePos.column})`, 5, 40, 'yellow');
+    colorText(`(${brickRowColumnAtMousePos.row},${brickRowColumnAtMousePos.column})`, 5, yPosition + 20, 'yellow');
     // array index at row and column
-    colorText(brickIndexAt(mouseX, mouseY), 5, 60, 'yellow');
+    colorText(brickIndexAt(mouseX, mouseY), 5, yPosition + 40, 'yellow');
   }
 </script>
 
