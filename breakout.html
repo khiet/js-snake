@@ -73,6 +73,7 @@
       }, BALL_PAUSE_DURATION);
 
       document.addEventListener('mousemove', controlPaddle1);
+      // document.addEventListener('mousemove', debugControlBallWithMouse);
     });
 
     document.querySelector('.js-ball-speed-level-select').addEventListener('change', function (e) {
@@ -125,12 +126,15 @@
     paddle1X = mousePos.x - (PADDLE_WIDTH / 2);
 
     paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
+  }
 
-    // ballX = mousePos.x;
-    // ballY = mousePos.y;
+  function debugControlBallWithMouse(e) {
+    let mousePos = calculateMousePos(e);
+    ballX = mousePos.x;
+    ballY = mousePos.y;
 
-    // ballSpeedX = 5;
-    // ballSpeedY = -5;
+    ballSpeedX = 5;
+    ballSpeedY = -5;
   }
 
   function resetBall() {
@@ -197,7 +201,7 @@
   }
 
   function ballPaddling() {
-    if (ballY > paddleCollisionY) {
+    if (ballY > paddleCollisionY && ballY <= paddleCollisionY + ballSpeedY) {
       if (paddle1Pos.left < ballX && paddle1Pos.right > ballX) {
         if (brickLeft <= 0) {
           resetBricks();
