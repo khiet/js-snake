@@ -7,40 +7,22 @@
   <title>Document</title>
 </head>
 <script>
-  // configurable options
-  let selectedRowNumber = 6;
-  let selectedBallSpeedLevel = 2;
-  let hasBrokenBrock = true;
-
-  let score = 0;
-  let lives = 3;
-  let showGameOver = false;
-  let startRound = false;
-  const BALL_PAUSE_DURATION = 1000;
-
   let canvas;
   let canvasContext;
   let ballX = 0;
   let ballY = 0;
-  // at start of each round, ball will move either left or right, top or bottom
-  let ballSpeedX = 0;
-  let ballSpeedY = 0;
+
+  let ballSpeedX = 5;
+  let ballSpeedY = -5;
   let ballRadius = 10;
 
-  let brickRows = selectedRowNumber;
+  let BRICK_ROWS = 6;
   const BRICK_COLUMNS = 10;
   // 800 is canvas width
   const BRICK_W = 800 / BRICK_COLUMNS;
   const BRICK_H = 20;
-  let brickGrid = new Array(brickRows * BRICK_COLUMNS);
+  let brickGrid = new Array(BRICK_ROWS * BRICK_COLUMNS);
   let brickLeft = 0;
-  const TOP_GATTER_ROWS = 3;
-
-  const PADDLE_WIDTH = 100;
-  const PADDLE_HEIGHT = 10;
-  let paddle1X = 350;
-  let paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
-  let paddleCollisionY = 0;
 
   let mouseX;
   let mouseY;
@@ -60,56 +42,21 @@
     setInterval(callBoth, 1000 / fps);
 
     resetBricks();
-    document.querySelector('.js-start-button').addEventListener('click', function () {
-      resetBall();
-      resetBricks();
-
-      startRound = false;
-      lives = 3;
-      score = 0;
-      showGameOver = false;
-      setTimeout(function () {
-        startRound = true;
-      }, BALL_PAUSE_DURATION);
-
-      document.addEventListener('mousemove', controlPaddle1);
-      // document.addEventListener('mousemove', debugControlBallWithMouse);
-    });
-
-    document.querySelector('.js-ball-speed-level-select').addEventListener('change', function (e) {
-      selectedBallSpeedLevel = e.currentTarget.value;
-    });
-
-    document.querySelector('.js-row-number-select').addEventListener('change', function (e) {
-      selectedRowNumber = e.currentTarget.value;
-    });
-
-    document.querySelector('.js-include-broken-brick').addEventListener('change', function (e) {
-      hasBrokenBrock = (e.currentTarget.value == 'yes');
-    });
+    resetBall();
   });
 
   function resetBricks() {
-    brickRows = selectedRowNumber;
     brickLeft = 0;
-    for (let i = 0; i < brickRows * BRICK_COLUMNS; i++) {
-      if (i < BRICK_COLUMNS * TOP_GATTER_ROWS) {
-        brickGrid[i] = false;
-      } else {
-        brickLeft++;
-        if (hasBrokenBrock && Math.random() < 0.2) {
-          brickGrid[i] = false;
-        } else {
-          brickGrid[i] = true;
-        }
-      }
+    for (let i = 0; i < BRICK_ROWS * BRICK_COLUMNS; i++) {
+      brickLeft++;
+      brickGrid[i] = true;
     }
   }
 
   function drawBricks() {
     const brickMargin = 2;
 
-    for (let i = 0; i < brickRows; i++) {
+    for (let i = 0; i < BRICK_ROWS; i++) {
       for (let j = 0; j < BRICK_COLUMNS; j++) {
         let brickIndex = brickIndexAtRowColumn(i, j);
 
@@ -118,14 +65,6 @@
         }
       }
     }
-  }
-
-  function controlPaddle1(e) {
-    let mousePos = calculateMousePos(e);
-    // align mouse center and paddle center
-    paddle1X = mousePos.x - (PADDLE_WIDTH / 2);
-
-    paddle1Pos = {left: paddle1X, right: paddle1X + PADDLE_WIDTH};
   }
 
   function debugControlBallWithMouse(e) {
@@ -138,17 +77,12 @@
   }
 
   function resetBall() {
-    startRound = false;
-    setTimeout(function () {
-      startRound = true;
-    }, BALL_PAUSE_DURATION);
-
     // set ball at center
     ballX = canvas.width / 2;
     ballY = canvas.height * 0.75
 
-    ballSpeedX = 0;
-    ballSpeedY = selectedBallSpeedLevel * 5;
+    ballSpeedX = 5;
+    ballSpeedY = -5;
   }
 
   function calculateMousePos(event) {
@@ -164,9 +98,7 @@
     return result;
   }
   function callBoth() {
-    if (startRound && !showGameOver) {
-      moveAll();
-    }
+    moveAll();
     drawAll();
   }
 
@@ -180,7 +112,7 @@
     }
 
     if (ballX > canvas.width) {
-      ballX -= ballSpeedX;
+      ballX += -ballSpeedX;
       ballSpeedX = -ballSpeedX;
     }
 
@@ -190,29 +122,8 @@
     }
 
     if (ballY > canvas.height) {
-      resetBall();
-      resetBricks();
-      lives--;
-
-      if (lives <= 0) {
-        showGameOver = true;
-      }
-    }
-  }
-
-  function ballPaddling() {
-    if (ballY > paddleCollisionY && ballY <= paddleCollisionY + ballSpeedY) {
-      if (paddle1Pos.left < ballX && paddle1Pos.right > ballX) {
-        if (brickLeft <= 0) {
-          resetBricks();
-        }
-
-        ballY -= ballSpeedY;
-        ballSpeedY = -ballSpeedY;
-
-        let deltaX = ballX - (paddle1X + PADDLE_WIDTH / 2);
-        ballSpeedX = deltaX * 0.35;
-      }
+      ballY += -ballSpeedY;
+      ballSpeedY = -ballSpeedY;
     }
   }
 
@@ -229,8 +140,7 @@
 
         brickGrid[brickIndex] = false;
         brickLeft--;
-        score++;
-        // ball hits left or right of the brick (ball comes from different column)
+        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / ball hits left or right of the brick (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
         }
@@ -319,7 +229,6 @@
 
   function moveAll() {
     ballMove();
-    ballPaddling();
     ballBrickHandling();
   }
 
@@ -344,22 +253,11 @@
   }
 
   function drawAll() {
+    console.log('drawAll');
+    console.log(ballX);
+    console.log(ballY);
     colorRect(0, 0, canvas.width, canvas.height, 'black');
     drawBricks();
-
-    colorText(`SCORE ${score}`, 5, 20, 'white');
-    colorText(`LIVES ${lives}`, 5, 40, 'white');
-
-    if (showGameOver) {
-      colorText('GAME OVER', canvas.width / 2, canvas.height / 2, 'white', 48, 'center');
-      // hide ball
-      ballX = 0;
-      ballY = 0;
-    }
-
-    const paddleFloat = canvas.height - 50;
-    paddleCollisionY = paddleFloat - PADDLE_HEIGHT;
-    colorRect(paddle1X, paddleFloat, PADDLE_WIDTH, PADDLE_HEIGHT, 'white');
 
     // showDebugInfo();
 
@@ -404,79 +302,10 @@
     align-items: center;
     flex-direction: column;
   }
-
-  .ball-speed-level-select {
-    margin-top: 10px;
-  }
-
-  .row-number-select {
-    margin-top: 5px;
-  }
-
-  .include-broken-brick-select {
-    margin-top: 5px;
-  }
-
-  .start-button {
-    margin-top: 10px;
-    background-color: black;
-    color: white;
-    padding: 8px 16px;
-    font-size: 16px;
-  }
 </style>
 
 <body>
   <canvas id='gameCanvas' width='800' height='600'></canvas>
-  <div class="ball-speed-level-select">
-    <label class="ball-speed-level-label">
-      BALL SPEED LEVEL
-    </label>
-    <select name="ball-speed-level" class="js-ball-speed-level-select">
-      <option value="1">1</option>
-      <option value="2" selected="selected">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </select>
-  </div>
-  <div class="row-number-select">
-    <label class="row-number-label">
-      ROW NUMBER
-    </label>
-    <select name="row-number" class="js-row-number-select">
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6" selected="selected">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
-      <option value="13">13</option>
-      <option value="14">14</option>
-      <option value="15">15</option>
-      <option value="16">16</option>
-      <option value="17">17</option>
-      <option value="18">18</option>
-      <option value="19">19</option>
-      <option value="20">20</option>
-    </select>
-  </div>
-  <div class="include-broken-brick-select">
-    <label class="include-broken-brick-label">
-      INCLUDE EMPTY BRICK
-    </label>
-    <select name="include-broken-brick" class="js-include-broken-brick">
-      <option value="yes" selected="selected">Yes</option>
-      <option value="no">No</option>
-    </select>
-  </div>
-  <div class="start">
-    <button class="js-start-button start-button">
-      START
-    </button>
-  </div>
 </body>
 
 </html>
