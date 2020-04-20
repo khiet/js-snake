@@ -16,13 +16,13 @@
   let ballSpeedY = -5;
   let ballRadius = 10;
 
-  let BRICK_ROWS = 6;
-  const BRICK_COLUMNS = 10;
+  let TRACK_ROWS = 6;
+  const TRACK_COLUMNS = 10;
   // 800 is canvas width
-  const BRICK_W = 800 / BRICK_COLUMNS;
-  const BRICK_H = 20;
-  let brickGrid = new Array(BRICK_ROWS * BRICK_COLUMNS);
-  let brickLeft = 0;
+  const TRACK_W = 800 / TRACK_COLUMNS;
+  const TRACK_H = 20;
+  let trackGrid = new Array(TRACK_ROWS * TRACK_COLUMNS);
+  let trackLeft = 0;
 
   let mouseX;
   let mouseY;
@@ -41,27 +41,27 @@
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
 
-    resetBricks();
+    resetTracks();
     resetBall();
   });
 
-  function resetBricks() {
-    brickLeft = 0;
-    for (let i = 0; i < BRICK_ROWS * BRICK_COLUMNS; i++) {
-      brickLeft++;
-      brickGrid[i] = true;
+  function resetTracks() {
+    trackLeft = 0;
+    for (let i = 0; i < TRACK_ROWS * TRACK_COLUMNS; i++) {
+      trackLeft++;
+      trackGrid[i] = true;
     }
   }
 
-  function drawBricks() {
-    const brickMargin = 2;
+  function drawTracks() {
+    const trackMargin = 2;
 
-    for (let i = 0; i < BRICK_ROWS; i++) {
-      for (let j = 0; j < BRICK_COLUMNS; j++) {
-        let brickIndex = brickIndexAtRowColumn(i, j);
+    for (let i = 0; i < TRACK_ROWS; i++) {
+      for (let j = 0; j < TRACK_COLUMNS; j++) {
+        let trackIndex = trackIndexAtRowColumn(i, j);
 
-        if (brickGrid[brickIndex]) {
-          colorRect(BRICK_W * j, BRICK_H * i, BRICK_W - brickMargin, BRICK_H - brickMargin, 'blue');
+        if (trackGrid[trackIndex]) {
+          colorRect(TRACK_W * j, TRACK_H * i, TRACK_W - trackMargin, TRACK_H - trackMargin, 'blue');
         }
       }
     }
@@ -127,82 +127,82 @@
     }
   }
 
-  function ballBrickHandling() {
-    let brickIndex = brickIndexAt(ballX, ballY);
-    if (brickIndex >= 0 && brickIndex < brickGrid.length && ballX > 0 && ballX < canvas.width) {
-      if (brickGrid[brickIndex]) {
+  function ballTrackHandling() {
+    let trackIndex = trackIndexAt(ballX, ballY);
+    if (trackIndex >= 0 && trackIndex < trackGrid.length && ballX > 0 && ballX < canvas.width) {
+      if (trackGrid[trackIndex]) {
 
-        let previousBrickRowColumn = brickRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
-        let currentBrickRowColumn = brickRowColumnAt(ballX, ballY);
-        let diffRow = previousBrickRowColumn.row != currentBrickRowColumn.row;
-        let diffColumn = previousBrickRowColumn.column != currentBrickRowColumn.column;
+        let previousTrackRowColumn = trackRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
+        let currentTrackRowColumn = trackRowColumnAt(ballX, ballY);
+        let diffRow = previousTrackRowColumn.row != currentTrackRowColumn.row;
+        let diffColumn = previousTrackRowColumn.column != currentTrackRowColumn.column;
         let ballDirection = directionAtSpeed(ballSpeedX, ballSpeedY);
 
-        brickGrid[brickIndex] = false;
-        brickLeft--;
-        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / ball hits left or right of the brick (ball comes from different column)
+        trackGrid[trackIndex] = false;
+        trackLeft--;
+        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / ball hits left or right of the track (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
         }
-        // ball hits bottom or top of the brick (ball comes from different row)
+        // ball hits bottom or top of the track (ball comes from different row)
         if (diffRow) {
           ballSpeedY = -ballSpeedY;
         }
-        // ball hits corner of the brick
+        // ball hits corner of the track
         if (diffColumn && diffRow) {
-          const topBrick = brickGrid[brickIndex - BRICK_COLUMNS];
-          const bottomBrick = brickGrid[brickIndex + BRICK_COLUMNS];
-          const leftBrick = brickGrid[brickIndex - 1];
-          const rightBrick = brickGrid[brickIndex + 1];
+          const topTrack = trackGrid[trackIndex - TRACK_COLUMNS];
+          const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
+          const leftTrack = trackGrid[trackIndex - 1];
+          const rightTrack = trackGrid[trackIndex + 1];
 
           if (ballDirection === directions.TOP_LEFT) {
-            if (topBrick && leftBrick) {
+            if (topTrack && leftTrack) {
               return;
             }
 
-            if (topBrick) {
+            if (topTrack) {
               ballSpeedY = -ballSpeedY;
             }
-            if (leftBrick) {
+            if (leftTrack) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.TOP_RIGHT) {
-            if (topBrick && rightBrick) {
+            if (topTrack && rightTrack) {
               return;
             }
 
-            if (topBrick) {
+            if (topTrack) {
               ballSpeedY = -ballSpeedY;
             }
-            if (rightBrick) {
+            if (rightTrack) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.BOTTOM_RIGHT) {
-            if (bottomBrick && rightBrick) {
+            if (bottomTrack && rightTrack) {
               return;
             }
 
-            if (bottomBrick) {
+            if (bottomTrack) {
               ballSpeedY = -ballSpeedY;
             }
-            if (rightBrick) {
+            if (rightTrack) {
               ballSpeedX = -ballSpeedX;
             }
           }
           if (ballDirection === directions.BOTTOM_LEFT) {
-            const bottomBrick = brickGrid[brickIndex + BRICK_COLUMNS];
-            const leftBrick = brickGrid[brickIndex - 1];
+            const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
+            const leftTrack = trackGrid[trackIndex - 1];
 
-            if (bottomBrick && leftBrick) {
+            if (bottomTrack && leftTrack) {
               return;
             }
 
-            if (bottomBrick) {
+            if (bottomTrack) {
               ballSpeedY = -ballSpeedY;
             }
-            if (leftBrick) {
+            if (leftTrack) {
               ballSpeedX = -ballSpeedX;
             }
           }
@@ -229,7 +229,7 @@
 
   function moveAll() {
     ballMove();
-    ballBrickHandling();
+    ballTrackHandling();
   }
 
   function colorRect(x, y, width, height, color) {
@@ -257,7 +257,7 @@
     console.log(ballX);
     console.log(ballY);
     colorRect(0, 0, canvas.width, canvas.height, 'black');
-    drawBricks();
+    drawTracks();
 
     // showDebugInfo();
 
@@ -267,19 +267,19 @@
     }
   }
 
-  function brickIndexAt(x, y) {
-    let brickRowColumn = brickRowColumnAt(x, y);
-    return brickIndexAtRowColumn(brickRowColumn.row, brickRowColumn.column);
+  function trackIndexAt(x, y) {
+    let trackRowColumn = trackRowColumnAt(x, y);
+    return trackIndexAtRowColumn(trackRowColumn.row, trackRowColumn.column);
   }
 
-  function brickIndexAtRowColumn(row, column) {
-    return (row * BRICK_COLUMNS) + column;
+  function trackIndexAtRowColumn(row, column) {
+    return (row * TRACK_COLUMNS) + column;
   }
 
-  function brickRowColumnAt(x, y) {
+  function trackRowColumnAt(x, y) {
     return {
-      row: Math.floor(y / BRICK_H),
-      column: Math.floor(x / BRICK_W)
+      row: Math.floor(y / TRACK_H),
+      column: Math.floor(x / TRACK_W)
     }
   }
 
@@ -288,10 +288,10 @@
     // mouse position
     colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, yPosition, 'yellow');
     // row and column at mouse position
-    let brickRowColumnAtMousePos = brickRowColumnAt(mouseX, mouseY);
-    colorText(`(${brickRowColumnAtMousePos.row},${brickRowColumnAtMousePos.column})`, 5, yPosition + 20, 'yellow');
+    let trackRowColumnAtMousePos = trackRowColumnAt(mouseX, mouseY);
+    colorText(`(${trackRowColumnAtMousePos.row},${trackRowColumnAtMousePos.column})`, 5, yPosition + 20, 'yellow');
     // array index at row and column
-    colorText(brickIndexAt(mouseX, mouseY), 5, yPosition + 40, 'yellow');
+    colorText(trackIndexAt(mouseX, mouseY), 5, yPosition + 40, 'yellow');
   }
 </script>
 
