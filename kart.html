@@ -16,14 +16,27 @@
   let ballSpeedY = -5;
   let ballRadius = 10;
 
-  let TRACK_ROWS = 30;
-  const TRACK_COLUMNS = 40;
-  // 800 is canvas width
-  const TRACK_W = 800 / TRACK_COLUMNS;
-  const TRACK_H = 600 / TRACK_ROWS;
-  let trackGrid = new Array(TRACK_ROWS * TRACK_COLUMNS);
-  let trackLeft = 0;
-
+  const TRACK_W       = 40;
+  const TRACK_H       = 40;
+  const TRACK_ROWS    = 15;
+  const TRACK_COLUMNS = 20;
+  let trackGrid = [
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                  ];
   let mouseX;
   let mouseY;
 
@@ -41,17 +54,8 @@
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
 
-    resetTracks();
     resetBall();
   });
-
-  function resetTracks() {
-    trackLeft = 0;
-    for (let i = 0; i < TRACK_ROWS * TRACK_COLUMNS; i++) {
-      trackLeft++;
-      trackGrid[i] = true;
-    }
-  }
 
   function drawTracks() {
     const trackMargin = 2;
@@ -60,7 +64,7 @@
       for (let j = 0; j < TRACK_COLUMNS; j++) {
         let trackIndex = trackIndexAtRowColumn(i, j);
 
-        if (trackGrid[trackIndex]) {
+        if (trackGrid[trackIndex] == 1) {
           colorRect(TRACK_W * j, TRACK_H * i, TRACK_W - trackMargin, TRACK_H - trackMargin, 'blue');
         }
       }
@@ -130,7 +134,7 @@
   function ballTrackHandling() {
     let trackIndex = trackIndexAt(ballX, ballY);
     if (trackIndex >= 0 && trackIndex < trackGrid.length && ballX > 0 && ballX < canvas.width) {
-      if (trackGrid[trackIndex]) {
+      if (trackGrid[trackIndex] == 1) {
 
         let previousTrackRowColumn = trackRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
         let currentTrackRowColumn = trackRowColumnAt(ballX, ballY);
@@ -138,8 +142,6 @@
         let diffColumn = previousTrackRowColumn.column != currentTrackRowColumn.column;
         let ballDirection = directionAtSpeed(ballSpeedX, ballSpeedY);
 
-        trackGrid[trackIndex] = false;
-        trackLeft--;
         //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / ball hits left or right of the track (ball comes from different column)
         if (diffColumn) {
           ballSpeedX = -ballSpeedX;
