@@ -17,7 +17,6 @@
 
   let ballSpeedX = 5;
   let ballSpeedY = -5;
-  let ballRadius = 10;
 
   const TRACK_W       = 40;
   const TRACK_H       = 40;
@@ -256,13 +255,6 @@
     canvasContext.fillRect(x, y, width, height);
   }
 
-  function colorCircle(x, y, radius, color) {
-    canvasContext.fillStyle = color;
-    canvasContext.beginPath();
-    canvasContext.arc(x, y, radius, 0, Math.PI * 2, true);
-    canvasContext.fill();
-  }
-
   function colorText(text, x, y, color, size = 16, textAlign = 'left') {
     canvasContext.textAlign = textAlign;
     canvasContext.font = `normal ${size}px Arial`;
@@ -272,9 +264,6 @@
   }
 
   function drawAll() {
-    console.log('drawAll');
-    console.log(ballX);
-    console.log(ballY);
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     if (carPicLoaded) {
@@ -284,11 +273,6 @@
     drawTracks();
 
     // showDebugInfo();
-
-    // at start (when ballX and ballY are 0), hide ball
-    if (ballX && ballY) {
-      colorCircle(ballX, ballY, ballRadius, 'white');
-    }
   }
 
   function trackIndexAt(x, y) {
