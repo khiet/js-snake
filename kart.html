@@ -10,6 +10,11 @@
   let carPic = document.createElement('img');
   let carPicLoaded = false;
 
+  const SPEED_DECAY_MULTIPLIER = 0.97;
+  const ACCELERATION_POWER = 0.3;
+  const REVERSE_POWER = 0.3;
+  const TURN_RATE = 0.08;
+
   let canvas;
   let canvasContext;
   let carX = 0;
@@ -39,6 +44,10 @@
     1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   ];
+  const TRACK_ROAD = 0;
+  const TRACK_WALL = 1;
+  const TRACK_PLAYERSTART = 2;
+
   let mouseX;
   let mouseY;
 
@@ -113,7 +122,7 @@
       for (let j = 0; j < TRACK_COLUMNS; j++) {
         let trackIndex = trackIndexAtRowColumn(i, j);
 
-        if (trackGrid[trackIndex] == 1) {
+        if (trackGrid[trackIndex] == TRACK_WALL) {
           colorRect(TRACK_W * j, TRACK_H * i, TRACK_W - trackMargin, TRACK_H - trackMargin, 'blue');
         }
       }
@@ -132,9 +141,9 @@
     for (let i = 0; i < TRACK_ROWS; i++) {
       for (let j = 0; j < TRACK_COLUMNS; j++) {
         let trackIndex = trackIndexAtRowColumn(i, j);
-        if (trackGrid[trackIndex] == 2) {
+        if (trackGrid[trackIndex] == TRACK_PLAYERSTART) {
           // reset track to contain only 1 or 0
-          trackGrid[trackIndex] = 0;
+          trackGrid[trackIndex] = TRACK_ROAD;
 
           carAng = -Math.PI/2;
           carX = j * TRACK_H + TRACK_H / 2;
@@ -163,22 +172,22 @@
   }
 
   function carMove() {
-    carSpeed *= 0.97;
+    carSpeed *= SPEED_DECAY_MULTIPLIER;
 
     if (keyHoldAccelerate) {
-      carSpeed += 0.3;
+      carSpeed += ACCELERATION_POWER;
     }
 
     if (keyHoldReverse) {
-      carSpeed -= 0.3;
+      carSpeed -= REVERSE_POWER;
     }
 
     if (keyHoldTurnLeft) {
-      carAng -= 0.08;
+      carAng -= TURN_RATE;
     }
 
     if (keyHoldTurnRight) {
-      carAng += 0.08;
+      carAng += TURN_RATE;
     }
 
     carX += Math.cos(carAng) * carSpeed;
