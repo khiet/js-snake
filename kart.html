@@ -7,6 +7,9 @@
   <title>Document</title>
 </head>
 <script>
+  let carPic = document.createElement('img');
+  let carPicLoaded = false;
+
   let canvas;
   let canvasContext;
   let ballX = 0;
@@ -53,6 +56,11 @@
 
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
+
+    carPic.onload = function() {
+      carPicLoaded = true;
+    };
+    carPic.src = "car.png";
 
     resetBall();
   });
@@ -268,6 +276,11 @@
     console.log(ballX);
     console.log(ballY);
     colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+    if (carPicLoaded) {
+      canvasContext.drawImage(carPic, ballX - carPic.width / 2, ballY - carPic.height/2);
+    }
+
     drawTracks();
 
     // showDebugInfo();
