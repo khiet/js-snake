@@ -48,9 +48,6 @@
   const TRACK_WALL = 1;
   const TRACK_PLAYERSTART = 2;
 
-  let mouseX;
-  let mouseY;
-
   const keyCodes = {
     ARROW_LEFT: 37,
     ARROW_UP: 38,
@@ -129,14 +126,6 @@
     }
   }
 
-  function debugControlCarWithMouse(e) {
-    let mousePos = calculateMousePos(e);
-    carX = mousePos.x;
-    carY = mousePos.y;
-
-    carSpeed = 5;
-  }
-
   function resetCar() {
     for (let i = 0; i < TRACK_ROWS; i++) {
       for (let j = 0; j < TRACK_COLUMNS; j++) {
@@ -151,19 +140,6 @@
         }
       }
     }
-  }
-
-  function calculateMousePos(event) {
-    let rect = canvas.getBoundingClientRect();
-    let root = document.documentElement;
-    mouseX = event.clientX - rect.left - root.scrollLeft;
-    mouseY = event.clientY - rect.top - root.scrollTop;
-    let result = {
-      x: mouseX,
-      y: mouseY
-    };
-
-    return result;
   }
 
   function callBoth() {
@@ -233,8 +209,6 @@
     }
 
     drawTracks();
-
-    // showDebugInfo();
   }
 
   function drawBitmapCenteredWithRotation(pic, x, y, angle) {
@@ -259,17 +233,6 @@
       row: Math.floor(y / TRACK_H),
       column: Math.floor(x / TRACK_W)
     }
-  }
-
-  function showDebugInfo() {
-    const yPosition = canvas.height / 2;
-    // mouse position
-    colorText(`(${Math.floor(mouseX)},${Math.floor(mouseY)})`, 5, yPosition, 'yellow');
-    // row and column at mouse position
-    let trackRowColumnAtMousePos = trackRowColumnAt(mouseX, mouseY);
-    colorText(`(${trackRowColumnAtMousePos.row},${trackRowColumnAtMousePos.column})`, 5, yPosition + 20, 'yellow');
-    // array index at row and column
-    colorText(trackIndexAt(mouseX, mouseY), 5, yPosition + 40, 'yellow');
   }
 </script>
 
