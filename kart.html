@@ -12,11 +12,11 @@
 
   let canvas;
   let canvasContext;
-  let ballX = 0;
-  let ballY = 0;
+  let carX = 0;
+  let carY = 0;
 
-  let ballSpeedX = 5;
-  let ballSpeedY = -5;
+  let carSpeedX = 5;
+  let carSpeedY = -5;
 
   const TRACK_W       = 40;
   const TRACK_H       = 40;
@@ -61,7 +61,7 @@
     };
     carPic.src = "car.png";
 
-    resetBall();
+    resetCar();
   });
 
   function drawTracks() {
@@ -78,16 +78,16 @@
     }
   }
 
-  function debugControlBallWithMouse(e) {
+  function debugControlCarWithMouse(e) {
     let mousePos = calculateMousePos(e);
-    ballX = mousePos.x;
-    ballY = mousePos.y;
+    carX = mousePos.x;
+    carY = mousePos.y;
 
-    ballSpeedX = 5;
-    ballSpeedY = -5;
+    carSpeedX = 5;
+    carSpeedY = -5;
   }
 
-  function resetBall() {
+  function resetCar() {
     for (let i = 0; i < TRACK_ROWS; i++) {
       for (let j = 0; j < TRACK_COLUMNS; j++) {
         let trackIndex = trackIndexAtRowColumn(i, j);
@@ -95,14 +95,14 @@
             // reset track to contain only 1 or 0
             trackGrid[trackIndex] = 0;
 
-            ballX = j * TRACK_H + TRACK_H/2;
-            ballY = i * TRACK_W + TRACK_W/2;
+            carX = j * TRACK_H + TRACK_H/2;
+            carY = i * TRACK_W + TRACK_W/2;
         }
       }
     }
 
-    ballSpeedX = 5;
-    ballSpeedY = -5;
+    carSpeedX = 5;
+    carSpeedY = -5;
   }
 
   function calculateMousePos(event) {
@@ -122,94 +122,94 @@
     drawAll();
   }
 
-  function ballMove() {
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
+  function carMove() {
+    carX += carSpeedX;
+    carY += carSpeedY;
 
-    if (ballX < 0) {
-      ballX += -ballSpeedX;
-      ballSpeedX = -ballSpeedX;
+    if (carX < 0) {
+      carX += -carSpeedX;
+      carSpeedX = -carSpeedX;
     }
 
-    if (ballX > canvas.width) {
-      ballX += -ballSpeedX;
-      ballSpeedX = -ballSpeedX;
+    if (carX > canvas.width) {
+      carX += -carSpeedX;
+      carSpeedX = -carSpeedX;
     }
 
-    if (ballY < 0) {
-      ballY += -ballSpeedY;
-      ballSpeedY = -ballSpeedY;
+    if (carY < 0) {
+      carY += -carSpeedY;
+      carSpeedY = -carSpeedY;
     }
 
-    if (ballY > canvas.height) {
-      ballY += -ballSpeedY;
-      ballSpeedY = -ballSpeedY;
+    if (carY > canvas.height) {
+      carY += -carSpeedY;
+      carSpeedY = -carSpeedY;
     }
   }
 
-  function ballTrackHandling() {
-    let trackIndex = trackIndexAt(ballX, ballY);
-    if (trackIndex >= 0 && trackIndex < trackGrid.length && ballX > 0 && ballX < canvas.width) {
+  function carTrackHandling() {
+    let trackIndex = trackIndexAt(carX, carY);
+    if (trackIndex >= 0 && trackIndex < trackGrid.length && carX > 0 && carX < canvas.width) {
       if (trackGrid[trackIndex] == 1) {
 
-        let previousTrackRowColumn = trackRowColumnAt(ballX - ballSpeedX, ballY - ballSpeedY);
-        let currentTrackRowColumn = trackRowColumnAt(ballX, ballY);
+        let previousTrackRowColumn = trackRowColumnAt(carX - carSpeedX, carY - carSpeedY);
+        let currentTrackRowColumn = trackRowColumnAt(carX, carY);
         let diffRow = previousTrackRowColumn.row != currentTrackRowColumn.row;
         let diffColumn = previousTrackRowColumn.column != currentTrackRowColumn.column;
-        let ballDirection = directionAtSpeed(ballSpeedX, ballSpeedY);
+        let carDirection = directionAtSpeed(carSpeedX, carSpeedY);
 
-        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / ball hits left or right of the track (ball comes from different column)
+        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / car hits left or right of the track (car comes from different column)
         if (diffColumn) {
-          ballSpeedX = -ballSpeedX;
+          carSpeedX = -carSpeedX;
         }
-        // ball hits bottom or top of the track (ball comes from different row)
+        // car hits bottom or top of the track (car comes from different row)
         if (diffRow) {
-          ballSpeedY = -ballSpeedY;
+          carSpeedY = -carSpeedY;
         }
-        // ball hits corner of the track
+        // car hits corner of the track
         if (diffColumn && diffRow) {
           const topTrack = trackGrid[trackIndex - TRACK_COLUMNS];
           const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
           const leftTrack = trackGrid[trackIndex - 1];
           const rightTrack = trackGrid[trackIndex + 1];
 
-          if (ballDirection === directions.TOP_LEFT) {
+          if (carDirection === directions.TOP_LEFT) {
             if (topTrack && leftTrack) {
               return;
             }
 
             if (topTrack) {
-              ballSpeedY = -ballSpeedY;
+              carSpeedY = -carSpeedY;
             }
             if (leftTrack) {
-              ballSpeedX = -ballSpeedX;
+              carSpeedX = -carSpeedX;
             }
           }
-          if (ballDirection === directions.TOP_RIGHT) {
+          if (carDirection === directions.TOP_RIGHT) {
             if (topTrack && rightTrack) {
               return;
             }
 
             if (topTrack) {
-              ballSpeedY = -ballSpeedY;
+              carSpeedY = -carSpeedY;
             }
             if (rightTrack) {
-              ballSpeedX = -ballSpeedX;
+              carSpeedX = -carSpeedX;
             }
           }
-          if (ballDirection === directions.BOTTOM_RIGHT) {
+          if (carDirection === directions.BOTTOM_RIGHT) {
             if (bottomTrack && rightTrack) {
               return;
             }
 
             if (bottomTrack) {
-              ballSpeedY = -ballSpeedY;
+              carSpeedY = -carSpeedY;
             }
             if (rightTrack) {
-              ballSpeedX = -ballSpeedX;
+              carSpeedX = -carSpeedX;
             }
           }
-          if (ballDirection === directions.BOTTOM_LEFT) {
+          if (carDirection === directions.BOTTOM_LEFT) {
             const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
             const leftTrack = trackGrid[trackIndex - 1];
 
@@ -218,10 +218,10 @@
             }
 
             if (bottomTrack) {
-              ballSpeedY = -ballSpeedY;
+              carSpeedY = -carSpeedY;
             }
             if (leftTrack) {
-              ballSpeedX = -ballSpeedX;
+              carSpeedX = -carSpeedX;
             }
           }
         }
@@ -246,8 +246,8 @@
   }
 
   function moveAll() {
-    ballMove();
-    ballTrackHandling();
+    carMove();
+    carTrackHandling();
   }
 
   function colorRect(x, y, width, height, color) {
@@ -267,7 +267,7 @@
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     if (carPicLoaded) {
-      canvasContext.drawImage(carPic, ballX - carPic.width / 2, ballY - carPic.height/2);
+      canvasContext.drawImage(carPic, carX - carPic.width / 2, carY - carPic.height/2);
     }
 
     drawTracks();
