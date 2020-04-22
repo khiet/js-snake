@@ -16,7 +16,7 @@
   let carY = 0;
   let carAng = 0;
 
-  let carSpeed = 5;
+  let carSpeed = 0;
 
   const TRACK_W = 40;
   const TRACK_H = 40;
@@ -49,25 +49,43 @@
     ARROW_DOWN: 40,
   }
 
+  let keyHoldAccelerate = false;
+  let keyHoldReverse = false;
+  let keyHoldTurnLeft = false;
+  let keyHoldTurnRight = false;
+
   function keyPressed(e) {
     switch (e.keyCode) {
       case keyCodes.ARROW_LEFT:
-        carAng -= 0.5;
+        keyHoldTurnLeft = true;
         break;
       case keyCodes.ARROW_RIGHT:
-        carAng += 0.5;
+        keyHoldTurnRight = true;
         break;
       case keyCodes.ARROW_UP:
-        carSpeed += 0.5;
+        keyHoldAccelerate = true;
         break;
       case keyCodes.ARROW_DOWN:
-        carSpeed -= 0.5;
+        keyHoldReverse = true;
         break;
     }
   }
 
   function keyReleased(e) {
-    // console.log(e);
+    switch (e.keyCode) {
+      case keyCodes.ARROW_LEFT:
+        keyHoldTurnLeft = false;
+        break;
+      case keyCodes.ARROW_RIGHT:
+        keyHoldTurnRight = false;
+        break;
+      case keyCodes.ARROW_UP:
+        keyHoldAccelerate = false;
+        break;
+      case keyCodes.ARROW_DOWN:
+        keyHoldReverse = false;
+        break;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -123,8 +141,6 @@
         }
       }
     }
-
-    carSpeed = 5;
   }
 
   function calculateMousePos(event) {
@@ -146,6 +162,22 @@
   }
 
   function carMove() {
+    if (keyHoldAccelerate) {
+      carSpeed += 0.2;
+    }
+
+    if (keyHoldReverse) {
+      carSpeed -= 0.2;
+    }
+
+    if (keyHoldTurnLeft) {
+      carAng -= 0.08;
+    }
+
+    if (keyHoldTurnRight) {
+      carAng += 0.08;
+    }
+
     carX += Math.cos(carAng) * carSpeed;
     carY += Math.sin(carAng) * carSpeed;
   }
