@@ -162,12 +162,14 @@
   }
 
   function carMove() {
+    carSpeed *= 0.97;
+
     if (keyHoldAccelerate) {
-      carSpeed += 0.2;
+      carSpeed += 0.3;
     }
 
     if (keyHoldReverse) {
-      carSpeed -= 0.2;
+      carSpeed -= 0.3;
     }
 
     if (keyHoldTurnLeft) {
