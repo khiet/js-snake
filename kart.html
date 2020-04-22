@@ -186,7 +186,11 @@
     let trackIndex = trackIndexAt(carX, carY);
     if (trackIndex >= 0 && trackIndex < trackGrid.length && carX > 0 && carX < canvas.width) {
       if (trackGrid[trackIndex] == 1) {
-        carSpeed = -carSpeed;
+        carSpeed *= -0.25;
+
+        // avoid getting stuck in this condition
+        carX += Math.cos(carAng) * carSpeed;
+        carY += Math.sin(carAng) * carSpeed;
       }
     }
   }
