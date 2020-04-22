@@ -18,27 +18,27 @@
   let carSpeedX = 5;
   let carSpeedY = -5;
 
-  const TRACK_W       = 40;
-  const TRACK_H       = 40;
-  const TRACK_ROWS    = 15;
+  const TRACK_W = 40;
+  const TRACK_H = 40;
+  const TRACK_ROWS = 15;
   const TRACK_COLUMNS = 20;
   let trackGrid = [
-                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                    1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
-                    1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-                    1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,
-                    1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,
-                    1,0,0,1,1,0,0,1,1,1,1,1,0,0,0,0,1,0,0,1,
-                    1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,
-                    1,0,0,1,0,0,0,0,0,1,1,0,0,1,0,0,1,0,0,1,
-                    1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,
-                    1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0,1,0,0,1,
-                    1,0,2,1,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,1,
-                    1,1,1,1,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,1,
-                    1,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,0,0,1,
-                    1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,1,1,
-                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                  ];
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+    1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+    1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
+    1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+    1, 0, 2, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+    1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  ];
   let mouseX;
   let mouseY;
 
@@ -56,7 +56,7 @@
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
 
-    carPic.onload = function() {
+    carPic.onload = function () {
       carPicLoaded = true;
     };
     carPic.src = "car.png";
@@ -92,11 +92,11 @@
       for (let j = 0; j < TRACK_COLUMNS; j++) {
         let trackIndex = trackIndexAtRowColumn(i, j);
         if (trackGrid[trackIndex] == 2) {
-            // reset track to contain only 1 or 0
-            trackGrid[trackIndex] = 0;
+          // reset track to contain only 1 or 0
+          trackGrid[trackIndex] = 0;
 
-            carX = j * TRACK_H + TRACK_H/2;
-            carY = i * TRACK_W + TRACK_W/2;
+          carX = j * TRACK_H + TRACK_H / 2;
+          carY = i * TRACK_W + TRACK_W / 2;
         }
       }
     }
@@ -267,7 +267,7 @@
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     if (carPicLoaded) {
-      canvasContext.drawImage(carPic, carX - carPic.width / 2, carY - carPic.height/2);
+      canvasContext.drawImage(carPic, carX - carPic.width / 2, carY - carPic.height / 2);
     }
 
     drawTracks();
