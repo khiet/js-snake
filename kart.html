@@ -42,11 +42,32 @@
   let mouseX;
   let mouseY;
 
-  const directions = {
-    TOP_LEFT: 0,
-    TOP_RIGHT: 1,
-    BOTTOM_RIGHT: 2,
-    BOTTOM_LEFT: 3,
+  const keyCodes = {
+    ARROW_LEFT: 37,
+    ARROW_UP: 38,
+    ARROW_RIGHT: 39,
+    ARROW_DOWN: 40,
+  }
+
+  function keyPressed(e) {
+    switch (e.keyCode) {
+      case keyCodes.ARROW_LEFT:
+        carAng -= 0.5;
+        break;
+      case keyCodes.ARROW_RIGHT:
+        carAng += 0.5;
+        break;
+      case keyCodes.ARROW_UP:
+        carSpeed += 0.5;
+        break;
+      case keyCodes.ARROW_DOWN:
+        carSpeed -= 0.5;
+        break;
+    }
+  }
+
+  function keyReleased(e) {
+    // console.log(e);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -55,6 +76,9 @@
 
     let fps = 30;
     setInterval(callBoth, 1000 / fps);
+
+    document.addEventListener('keydown', keyPressed);
+    document.addEventListener('keyup', keyReleased);
 
     carPic.onload = function () {
       carPicLoaded = true;
@@ -124,8 +148,6 @@
   function carMove() {
     carX += Math.cos(carAng) * carSpeed;
     carY += Math.sin(carAng) * carSpeed;
-
-    carAng += 0.02;
   }
 
   function carTrackHandling() {
@@ -133,22 +155,6 @@
     if (trackIndex >= 0 && trackIndex < trackGrid.length && carX > 0 && carX < canvas.width) {
       if (trackGrid[trackIndex] == 1) {
         carSpeed = -carSpeed;
-      }
-    }
-  }
-
-  function directionAtSpeed(speedX, speedY) {
-    if (speedX > 0) {
-      if (speedY > 0) {
-        return directions.TOP_LEFT;
-      } else {
-        return directions.BOTTOM_LEFT;
-      }
-    } else {
-      if (speedY < 0) {
-        return directions.BOTTOM_RIGHT;
-      } else {
-        return directions.TOP_RIGHT;
       }
     }
   }
