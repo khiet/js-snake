@@ -14,6 +14,7 @@
   let canvasContext;
   let carX = 0;
   let carY = 0;
+  let carAng = 0;
 
   let carSpeedX = 5;
   let carSpeedY = -5;
@@ -117,14 +118,16 @@
 
     return result;
   }
+
   function callBoth() {
     moveAll();
     drawAll();
   }
 
   function carMove() {
-    carX += carSpeedX;
-    carY += carSpeedY;
+    // carX += carSpeedX;
+    // carY += carSpeedY;
+    carAng += 0.02;
 
     if (carX < 0) {
       carX += -carSpeedX;
@@ -267,12 +270,21 @@
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
     if (carPicLoaded) {
-      canvasContext.drawImage(carPic, carX - carPic.width / 2, carY - carPic.height / 2);
+      drawBitmapCenteredWithRotation(carPic, carX, carY, carAng);
     }
 
     drawTracks();
 
     // showDebugInfo();
+  }
+
+  function drawBitmapCenteredWithRotation(pic, x, y, angle) {
+    console.log(canvasContext);
+    canvasContext.save();
+    canvasContext.translate(x, y);
+    canvasContext.rotate(angle);
+    canvasContext.drawImage(pic, -pic.width / 2, -pic.height / 2);
+    canvasContext.restore();
   }
 
   function trackIndexAt(x, y) {
