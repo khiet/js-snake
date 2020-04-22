@@ -16,8 +16,7 @@
   let carY = 0;
   let carAng = 0;
 
-  let carSpeedX = 5;
-  let carSpeedY = -5;
+  let carSpeed = 5;
 
   const TRACK_W = 40;
   const TRACK_H = 40;
@@ -84,8 +83,7 @@
     carX = mousePos.x;
     carY = mousePos.y;
 
-    carSpeedX = 5;
-    carSpeedY = -5;
+    carSpeed = 5;
   }
 
   function resetCar() {
@@ -102,8 +100,7 @@
       }
     }
 
-    carSpeedX = 5;
-    carSpeedY = -5;
+    carSpeed = 5;
   }
 
   function calculateMousePos(event) {
@@ -125,109 +122,17 @@
   }
 
   function carMove() {
-    // carX += carSpeedX;
-    // carY += carSpeedY;
+    carX += Math.cos(carAng) * carSpeed;
+    carY += Math.sin(carAng) * carSpeed;
+
     carAng += 0.02;
-
-    if (carX < 0) {
-      carX += -carSpeedX;
-      carSpeedX = -carSpeedX;
-    }
-
-    if (carX > canvas.width) {
-      carX += -carSpeedX;
-      carSpeedX = -carSpeedX;
-    }
-
-    if (carY < 0) {
-      carY += -carSpeedY;
-      carSpeedY = -carSpeedY;
-    }
-
-    if (carY > canvas.height) {
-      carY += -carSpeedY;
-      carSpeedY = -carSpeedY;
-    }
   }
 
   function carTrackHandling() {
     let trackIndex = trackIndexAt(carX, carY);
     if (trackIndex >= 0 && trackIndex < trackGrid.length && carX > 0 && carX < canvas.width) {
       if (trackGrid[trackIndex] == 1) {
-
-        let previousTrackRowColumn = trackRowColumnAt(carX - carSpeedX, carY - carSpeedY);
-        let currentTrackRowColumn = trackRowColumnAt(carX, carY);
-        let diffRow = previousTrackRowColumn.row != currentTrackRowColumn.row;
-        let diffColumn = previousTrackRowColumn.column != currentTrackRowColumn.column;
-        let carDirection = directionAtSpeed(carSpeedX, carSpeedY);
-
-        //Users/khietle/Desktop/Screenshot\ 2020-04-20\ at\ 16.20.46.png / car hits left or right of the track (car comes from different column)
-        if (diffColumn) {
-          carSpeedX = -carSpeedX;
-        }
-        // car hits bottom or top of the track (car comes from different row)
-        if (diffRow) {
-          carSpeedY = -carSpeedY;
-        }
-        // car hits corner of the track
-        if (diffColumn && diffRow) {
-          const topTrack = trackGrid[trackIndex - TRACK_COLUMNS];
-          const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
-          const leftTrack = trackGrid[trackIndex - 1];
-          const rightTrack = trackGrid[trackIndex + 1];
-
-          if (carDirection === directions.TOP_LEFT) {
-            if (topTrack && leftTrack) {
-              return;
-            }
-
-            if (topTrack) {
-              carSpeedY = -carSpeedY;
-            }
-            if (leftTrack) {
-              carSpeedX = -carSpeedX;
-            }
-          }
-          if (carDirection === directions.TOP_RIGHT) {
-            if (topTrack && rightTrack) {
-              return;
-            }
-
-            if (topTrack) {
-              carSpeedY = -carSpeedY;
-            }
-            if (rightTrack) {
-              carSpeedX = -carSpeedX;
-            }
-          }
-          if (carDirection === directions.BOTTOM_RIGHT) {
-            if (bottomTrack && rightTrack) {
-              return;
-            }
-
-            if (bottomTrack) {
-              carSpeedY = -carSpeedY;
-            }
-            if (rightTrack) {
-              carSpeedX = -carSpeedX;
-            }
-          }
-          if (carDirection === directions.BOTTOM_LEFT) {
-            const bottomTrack = trackGrid[trackIndex + TRACK_COLUMNS];
-            const leftTrack = trackGrid[trackIndex - 1];
-
-            if (bottomTrack && leftTrack) {
-              return;
-            }
-
-            if (bottomTrack) {
-              carSpeedY = -carSpeedY;
-            }
-            if (leftTrack) {
-              carSpeedX = -carSpeedX;
-            }
-          }
-        }
+        carSpeed = -carSpeed;
       }
     }
   }
@@ -279,7 +184,6 @@
   }
 
   function drawBitmapCenteredWithRotation(pic, x, y, angle) {
-    console.log(canvasContext);
     canvasContext.save();
     canvasContext.translate(x, y);
     canvasContext.rotate(angle);
