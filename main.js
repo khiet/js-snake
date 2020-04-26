@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setInterval(callBoth, 1000 / fps);
 
   setupInput();
+  loadTrackImages();
   loadCarImage();
   resetCar();
 });
@@ -27,8 +28,8 @@ function moveAll() {
 
 function drawAll() {
   clearScreen();
-  drawCar();
   drawTracks();
+  drawCar();
 }
 
 function clearScreen() {

@@ -1,5 +1,4 @@
 let carPic = document.createElement('img');
-let carPicLoaded = false;
 
 const SPEED_DECAY_MULTIPLIER = 0.97;
 const ACCELERATION_POWER = 0.3;
@@ -54,14 +53,9 @@ function moveCar() {
 }
 
 function loadCarImage() {
-  carPic.onload = function () {
-    carPicLoaded = true;
-  };
   carPic.src = "car.png";
 }
 
 function drawCar() {
-  if (carPicLoaded) {
-    drawBitmapCenteredWithRotation(carPic, carX, carY, carAng);
-  }
+  drawBitmapCenteredWithRotation(carPic, carX, carY, carAng);
 }

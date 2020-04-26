@@ -1,3 +1,6 @@
+let trackRoadPic = document.createElement('img');
+let trackWallPic = document.createElement('img');
+
 const TRACK_W = 40;
 const TRACK_H = 40;
 const TRACK_ROWS = 15;
@@ -24,14 +27,14 @@ const TRACK_WALL = 1;
 const TRACK_PLAYERSTART = 2;
 
 function drawTracks() {
-  const trackMargin = 2;
-
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
 
       if (trackGrid[trackIndex] == TRACK_WALL) {
-        colorRect(TRACK_W * j, TRACK_H * i, TRACK_W - trackMargin, TRACK_H - trackMargin, 'blue');
+        drawBitmap(trackWallPic, TRACK_W * j, TRACK_H * i);
+      } else if (trackGrid[trackIndex] == TRACK_ROAD) {
+        drawBitmap(trackRoadPic, TRACK_W * j, TRACK_H * i);
       }
     }
   }
@@ -64,4 +67,9 @@ function trackRowColumnAt(x, y) {
     row: Math.floor(y / TRACK_H),
     column: Math.floor(x / TRACK_W)
   }
+}
+
+function loadTrackImages() {
+  trackRoadPic.src = "track_road.png";
+  trackWallPic.src = "track_wall.png";
 }
