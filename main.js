@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext('2d');
 
+  colorText('Loading...', canvas.width / 2, canvas.height / 2, 'black', 64, 'center');
+
   loadImages();
 });
 
