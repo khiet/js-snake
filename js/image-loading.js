@@ -2,9 +2,9 @@ const trackRoadPic = document.createElement('img');
 const trackWallPic = document.createElement('img');
 const carPic = document.createElement('img');
 const images = [
-  {img: trackRoadPic, fileName: "track_road.png"},
-  {img: trackWallPic, fileName: "track_wall.png"},
-  {img: carPic, fileName: "car.png"}
+  {img: trackRoadPic, fileName: "images/track_road.png"},
+  {img: trackWallPic, fileName: "images/track_wall.png"},
+  {img: carPic, fileName: "images/car.png"}
 ];
 
 let imagesToLoad = images.length;
