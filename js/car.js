@@ -2,6 +2,7 @@ const SPEED_DECAY_MULTIPLIER = 0.97;
 const ACCELERATION_POWER = 0.3;
 const REVERSE_POWER = 0.3;
 const TURN_RATE = 0.08;
+const MIN_SPEED_TO_TURN = 0.5;
 
 let canvas;
 let canvasContext;
@@ -38,12 +39,14 @@ function moveCar() {
     carSpeed -= REVERSE_POWER;
   }
 
-  if (keyHoldTurnLeft) {
-    carAng -= TURN_RATE;
-  }
+  if (Math.abs(carSpeed) > MIN_SPEED_TO_TURN) {
+    if (keyHoldTurnLeft) {
+      carAng -= TURN_RATE;
+    }
 
-  if (keyHoldTurnRight) {
-    carAng += TURN_RATE;
+    if (keyHoldTurnRight) {
+      carAng += TURN_RATE;
+    }
   }
 
   carX += Math.cos(carAng) * carSpeed;
