@@ -31,17 +31,21 @@ function drawTracks() {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
 
+      let trackImage;
+
       if (trackGrid[trackIndex] == TRACK_WALL) {
-        drawBitmap(trackWallPic, TRACK_W * j, TRACK_H * i);
+        trackImage = trackWallPic;
       } else if (trackGrid[trackIndex] == TRACK_ROAD) {
-        drawBitmap(trackRoadPic, TRACK_W * j, TRACK_H * i);
+        trackImage = trackRoadPic;
       } else if (trackGrid[trackIndex] == TRACK_GOAL) {
-        drawBitmap(trackGoalPic, TRACK_W * j, TRACK_H * i);
+        trackImage = trackGoalPic;
       } else if (trackGrid[trackIndex] == TRACK_TREE) {
-        drawBitmap(trackTreePic, TRACK_W * j, TRACK_H * i);
+        trackImage = trackTreePic;
       } else if (trackGrid[trackIndex] == TRACK_FLAG) {
-        drawBitmap(trackFlagPic, TRACK_W * j, TRACK_H * i);
+        trackImage = trackFlagPic;
       }
+
+      drawBitmap(trackImage, TRACK_W * j, TRACK_H * i);
     }
   }
 }
