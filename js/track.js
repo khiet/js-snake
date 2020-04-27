@@ -4,7 +4,7 @@ const TRACK_ROWS = 15;
 const TRACK_COLUMNS = 20;
 let trackGrid = [
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+  1, 1, 1, 0, 2, 0, 3, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
   1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
   1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
   1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
@@ -13,7 +13,7 @@ let trackGrid = [
   1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
   1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
   1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-  1, 0, 2, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+  1, 0, 8, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
   1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
   1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
   1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
@@ -21,7 +21,10 @@ let trackGrid = [
 ];
 const TRACK_ROAD = 0;
 const TRACK_WALL = 1;
-const TRACK_PLAYERSTART = 2;
+const TRACK_GOAL = 2;
+const TRACK_TREE = 3;
+const TRACK_FLAG = 4;
+const TRACK_PLAYERSTART = 8;
 
 function drawTracks() {
   for (let i = 0; i < TRACK_ROWS; i++) {
@@ -32,21 +35,36 @@ function drawTracks() {
         drawBitmap(trackWallPic, TRACK_W * j, TRACK_H * i);
       } else if (trackGrid[trackIndex] == TRACK_ROAD) {
         drawBitmap(trackRoadPic, TRACK_W * j, TRACK_H * i);
+      } else if (trackGrid[trackIndex] == TRACK_GOAL) {
+        drawBitmap(trackGoalPic, TRACK_W * j, TRACK_H * i);
+      } else if (trackGrid[trackIndex] == TRACK_TREE) {
+        drawBitmap(trackTreePic, TRACK_W * j, TRACK_H * i);
+      } else if (trackGrid[trackIndex] == TRACK_FLAG) {
+        drawBitmap(trackFlagPic, TRACK_W * j, TRACK_H * i);
       }
     }
   }
 }
 
-function handleTrackCollision() {
-  let trackIndex = trackIndexAt(carX, carY);
-  if (trackIndex >= 0 && trackIndex < trackGrid.length && carX > 0 && carX < canvas.width) {
-    if (trackGrid[trackIndex] == 1) {
-      carSpeed *= -0.25;
-
-      // avoid getting stuck in this condition
-      carX += Math.cos(carAng) * carSpeed;
-      carY += Math.sin(carAng) * carSpeed;
+function isObstacleAt(x, y) {
+  let trackIndex = trackIndexAt(x, y);
+  let isObstacle = false;
+  if (trackIndex >= 0 && trackIndex < trackGrid.length) {
+    if (trackGrid[trackIndex] != TRACK_ROAD) {
+      isObstacle = true;
     }
+  }
+
+  return isObstacle;
+}
+
+function handleTrackCollision() {
+  if (isObstacleAt(carX, carY)) {
+    carSpeed *= -0.25;
+
+    // avoid getting stuck in this condition
+    carX += Math.cos(carAng) * carSpeed;
+    carY += Math.sin(carAng) * carSpeed;
   }
 }
 
