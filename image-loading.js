@@ -1,25 +1,23 @@
-let trackRoadPic = document.createElement('img');
-let trackWallPic = document.createElement('img');
-let carPic = document.createElement('img');
+const trackRoadPic = document.createElement('img');
+const trackWallPic = document.createElement('img');
+const carPic = document.createElement('img');
+const images = [
+  {img: trackRoadPic, fileName: "track_road.png"},
+  {img: trackWallPic, fileName: "track_wall.png"},
+  {img: carPic, fileName: "car.png"}
+];
 
-let imagesToLoad = 3;
+let imagesToLoad = images.length;
 
 function loadImages() {
-  loadTrackImages();
-  loadCarImage();
+  images.forEach(function (i) {
+    loadImage(i.img, i.fileName);
+  });
 }
 
-function loadTrackImages() {
-  trackRoadPic.onload = countImagesToLoadAndStartGameIfReadh;
-  trackWallPic.onload = countImagesToLoadAndStartGameIfReadh;
-
-  trackRoadPic.src = "track_road.png";
-  trackWallPic.src = "track_wall.png";
-}
-
-function loadCarImage() {
-  carPic.onload = countImagesToLoadAndStartGameIfReadh;
-  carPic.src = "car.png";
+function loadImage(img, fileName) {
+  img.onload = countImagesToLoadAndStartGameIfReadh;
+  img.src = fileName;
 }
 
 function countImagesToLoadAndStartGameIfReadh() {
