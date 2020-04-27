@@ -1,6 +1,3 @@
-let trackRoadPic = document.createElement('img');
-let trackWallPic = document.createElement('img');
-
 const TRACK_W = 40;
 const TRACK_H = 40;
 const TRACK_ROWS = 15;
@@ -67,9 +64,4 @@ function trackRowColumnAt(x, y) {
     row: Math.floor(y / TRACK_H),
     column: Math.floor(x / TRACK_W)
   }
-}
-
-function loadTrackImages() {
-  trackRoadPic.src = "track_road.png";
-  trackWallPic.src = "track_wall.png";
 }

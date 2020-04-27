@@ -7,14 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext('2d');
 
+  loadImages();
+});
+
+function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
 
   setupInput();
-  loadTrackImages();
-  loadCarImage();
   resetCar();
-});
+};
 
 function callBoth() {
   moveAll();

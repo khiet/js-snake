@@ -1,5 +1,3 @@
-let carPic = document.createElement('img');
-
 const SPEED_DECAY_MULTIPLIER = 0.97;
 const ACCELERATION_POWER = 0.3;
 const REVERSE_POWER = 0.3;
@@ -50,10 +48,6 @@ function moveCar() {
 
   carX += Math.cos(carAng) * carSpeed;
   carY += Math.sin(carAng) * carSpeed;
-}
-
-function loadCarImage() {
-  carPic.src = "car.png";
 }
 
 function drawCar() {
