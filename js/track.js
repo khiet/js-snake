@@ -27,14 +27,19 @@ const TRACK_FLAG = 4;
 const TRACK_PLAYERSTART = 8;
 
 function drawTracks() {
+  let trackIndex = 0;
+  let trackTileX = 0;
+  let trackTileY = 0;
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
-      let trackIndex = trackIndexAtRowColumn(i, j);
       let trackType = trackGrid[trackIndex];
       let trackImage = trackPics[trackType];
-
-      drawBitmap(trackImage, TRACK_W * j, TRACK_H * i);
+      drawBitmap(trackImage, trackTileX, trackTileY);
+      trackIndex++;
+      trackTileX += TRACK_W;
     }
+    trackTileX = 0;
+    trackTileY += TRACK_H;
   }
 }
 
