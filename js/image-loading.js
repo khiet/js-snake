@@ -1,18 +1,20 @@
 const trackPics = [];
 const carPic = document.createElement('img');
 
-const images = [
-  {trackType: TRACK_ROAD, fileName: "images/track_road.png"},
-  {trackType: TRACK_WALL, fileName: "images/track_wall.png"},
-  {trackType: TRACK_GOAL, fileName: "images/track_goal.png"},
-  {trackType: TRACK_TREE, fileName: "images/track_tree.png"},
-  {trackType: TRACK_FLAG, fileName: "images/track_flag.png"},
-  {pic: carPic, fileName: "images/car.png"}
-];
-
-let imagesToLoad = images.length;
+let imagesToLoad = 0;
 
 function loadImages() {
+  const images = [
+    {trackType: TRACK_ROAD, fileName: "images/track_road.png"},
+    {trackType: TRACK_WALL, fileName: "images/track_wall.png"},
+    {trackType: TRACK_GOAL, fileName: "images/track_goal.png"},
+    {trackType: TRACK_TREE, fileName: "images/track_tree.png"},
+    {trackType: TRACK_FLAG, fileName: "images/track_flag.png"},
+    {pic: carPic, fileName: "images/car.png"}
+  ];
+
+  imagesToLoad = images.length;
+
   images.forEach(function (i) {
     if (i.trackType !== undefined) {
       loadTrackImage(i.trackType, i.fileName);
