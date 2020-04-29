@@ -30,20 +30,8 @@ function drawTracks() {
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
-
-      let trackImage;
-
-      if (trackGrid[trackIndex] == TRACK_WALL) {
-        trackImage = trackWallPic;
-      } else if (trackGrid[trackIndex] == TRACK_ROAD) {
-        trackImage = trackRoadPic;
-      } else if (trackGrid[trackIndex] == TRACK_GOAL) {
-        trackImage = trackGoalPic;
-      } else if (trackGrid[trackIndex] == TRACK_TREE) {
-        trackImage = trackTreePic;
-      } else if (trackGrid[trackIndex] == TRACK_FLAG) {
-        trackImage = trackFlagPic;
-      }
+      let trackType = trackGrid[trackIndex];
+      let trackImage = trackPics[trackType];
 
       drawBitmap(trackImage, TRACK_W * j, TRACK_H * i);
     }
