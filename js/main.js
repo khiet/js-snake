@@ -10,11 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
   loadImages();
 });
 
-function setupInput() {
-  document.addEventListener('keydown', keyPressed);
-  document.addEventListener('keyup', keyReleased);
-}
-
 function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);

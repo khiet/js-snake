@@ -11,27 +11,43 @@ function Car() {
   this.x = 0;
   this.y = 0;
   this.ang = 0;
-
   this.speed = 0;
+
+  this.accelerate = false;
+  this.reverse = false;
+  this.turnLeft = false;
+  this.turnRight = false;
+
+  this.controlAccelerate;
+  this.controlReverse;
+  this.controlTurnLeft;
+  this.controlTurnRight;
 }
+
+Car.prototype.setupInput = function(upKey, downKey, leftKey, rightKey) {
+  this.controlAccelerate = upKey;
+  this.controlReverse = downKey;
+  this.controlTurnLeft = leftKey;
+  this.controlTurnRight = rightKey;
+};
 
 Car.prototype.moveCar = function () {
   this.speed *= SPEED_DECAY_MULTIPLIER;
 
-  if (keyHoldAccelerate) {
+  if (this.accelerate) {
     this.speed += ACCELERATION_POWER;
   }
 
-  if (keyHoldReverse) {
+  if (this.reverse) {
     this.speed -= REVERSE_POWER;
   }
 
   if (Math.abs(this.speed) > MIN_SPEED_TO_TURN) {
-    if (keyHoldTurnLeft) {
+    if (this.turnLeft) {
       this.ang -= TURN_RATE;
     }
 
-    if (keyHoldTurnRight) {
+    if (this.turnRight) {
       this.ang += TURN_RATE;
     }
   }
