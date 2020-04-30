@@ -38,6 +38,6 @@ function moveAll() {
 
 function drawAll() {
   drawTracks();
-  drawCar(carPic, car1);
-  drawCar(carPic, car2);
+  car1.drawCar(car1Pic);
+  car2.drawCar(car2Pic);
 }

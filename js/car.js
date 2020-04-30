@@ -57,6 +57,6 @@ Car.prototype.resetCar = function () {
   }
 }
 
-function drawCar(pic, car) {
-  drawBitmapCenteredWithRotation(pic, car.x, car.y, car.ang);
+Car.prototype.drawCar = function(pic) {
+  drawBitmapCenteredWithRotation(pic, this.x, this.y, this.ang);
 }

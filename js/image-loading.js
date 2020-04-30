@@ -1,5 +1,6 @@
 const trackPics = [];
-const carPic = document.createElement('img');
+const car1Pic = document.createElement('img');
+const car2Pic = document.createElement('img');
 
 let imagesToLoad = 0;
 
@@ -10,7 +11,8 @@ function loadImages() {
     {trackType: TRACK_GOAL, fileName: "images/track_goal.png"},
     {trackType: TRACK_TREE, fileName: "images/track_tree.png"},
     {trackType: TRACK_FLAG, fileName: "images/track_flag.png"},
-    {pic: carPic, fileName: "images/car.png"}
+    {pic: car1Pic, fileName: "images/car1.png"},
+    {pic: car2Pic, fileName: "images/car2.png"}
   ];
 
   imagesToLoad = images.length;
