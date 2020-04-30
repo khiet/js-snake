@@ -1,4 +1,5 @@
 let car1 = new Car();
+let car2 = new Car();
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
@@ -20,6 +21,7 @@ function startGarme() {
 
   setupInput();
   car1.resetCar();
+  car2.resetCar();
 };
 
 function callBoth() {
@@ -29,10 +31,13 @@ function callBoth() {
 
 function moveAll() {
   car1.moveCar();
+  car2.moveCar();
   handleTrackCollision(car1);
+  handleTrackCollision(car2);
 }
 
 function drawAll() {
   drawTracks();
   drawCar(carPic, car1);
+  drawCar(carPic, car2);
 }

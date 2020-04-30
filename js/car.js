@@ -51,6 +51,7 @@ Car.prototype.resetCar = function () {
         this.ang = -Math.PI / 2;
         this.x = j * TRACK_H + TRACK_H / 2;
         this.y = i * TRACK_W + TRACK_W / 2;
+        return;
       }
     }
   }
