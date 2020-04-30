@@ -1,7 +1,4 @@
-function setupInput() {
-  document.addEventListener('keydown', keyPressed);
-  document.addEventListener('keyup', keyReleased);
-}
+let car1 = new Car();
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
@@ -12,12 +9,17 @@ document.addEventListener('DOMContentLoaded', function () {
   loadImages();
 });
 
+function setupInput() {
+  document.addEventListener('keydown', keyPressed);
+  document.addEventListener('keyup', keyReleased);
+}
+
 function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
 
   setupInput();
-  resetCar();
+  car1.resetCar();
 };
 
 function callBoth() {
@@ -26,7 +28,7 @@ function callBoth() {
 }
 
 function moveAll() {
-  moveCar();
+  car1.moveCar();
   handleTrackCollision();
 }
 

@@ -6,13 +6,41 @@ const MIN_SPEED_TO_TURN = 0.5;
 
 let canvas;
 let canvasContext;
-let carX = 0;
-let carY = 0;
-let carAng = 0;
 
-let carSpeed = 0;
+function Car() {
+  this.x = 0;
+  this.y = 0;
+  this.ang = 0;
 
-function resetCar() {
+  this.speed = 0;
+}
+
+Car.prototype.moveCar = function () {
+  this.speed *= SPEED_DECAY_MULTIPLIER;
+
+  if (keyHoldAccelerate) {
+    this.speed += ACCELERATION_POWER;
+  }
+
+  if (keyHoldReverse) {
+    this.speed -= REVERSE_POWER;
+  }
+
+  if (Math.abs(this.speed) > MIN_SPEED_TO_TURN) {
+    if (keyHoldTurnLeft) {
+      this.ang -= TURN_RATE;
+    }
+
+    if (keyHoldTurnRight) {
+      this.ang += TURN_RATE;
+    }
+  }
+
+  this.x += Math.cos(this.ang) * this.speed;
+  this.y += Math.sin(this.ang) * this.speed;
+}
+
+Car.prototype.resetCar = function () {
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
@@ -20,39 +48,14 @@ function resetCar() {
         // reset track to contain only 1 or 0
         trackGrid[trackIndex] = TRACK_ROAD;
 
-        carAng = -Math.PI / 2;
-        carX = j * TRACK_H + TRACK_H / 2;
-        carY = i * TRACK_W + TRACK_W / 2;
+        this.ang = -Math.PI / 2;
+        this.x = j * TRACK_H + TRACK_H / 2;
+        this.y = i * TRACK_W + TRACK_W / 2;
       }
     }
   }
 }
 
-function moveCar() {
-  carSpeed *= SPEED_DECAY_MULTIPLIER;
-
-  if (keyHoldAccelerate) {
-    carSpeed += ACCELERATION_POWER;
-  }
-
-  if (keyHoldReverse) {
-    carSpeed -= REVERSE_POWER;
-  }
-
-  if (Math.abs(carSpeed) > MIN_SPEED_TO_TURN) {
-    if (keyHoldTurnLeft) {
-      carAng -= TURN_RATE;
-    }
-
-    if (keyHoldTurnRight) {
-      carAng += TURN_RATE;
-    }
-  }
-
-  carX += Math.cos(carAng) * carSpeed;
-  carY += Math.sin(carAng) * carSpeed;
-}
-
 function drawCar() {
-  drawBitmapCenteredWithRotation(carPic, carX, carY, carAng);
+  drawBitmapCenteredWithRotation(carPic, car1.x, car1.y, car1.ang);
 }

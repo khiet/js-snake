@@ -56,12 +56,12 @@ function isObstacleAt(x, y) {
 }
 
 function handleTrackCollision() {
-  if (isObstacleAt(carX, carY)) {
-    carSpeed *= -0.25;
+  if (isObstacleAt(car1.x, car1.y)) {
+    car1.speed *= -0.25;
 
     // avoid getting stuck in this condition
-    carX += Math.cos(carAng) * carSpeed;
-    carY += Math.sin(carAng) * carSpeed;
+    car1.x += Math.cos(car1.ang) * car1.speed;
+    car1.y += Math.sin(car1.ang) * car1.speed;
   }
 }
 
