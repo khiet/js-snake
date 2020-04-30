@@ -29,10 +29,10 @@ function callBoth() {
 
 function moveAll() {
   car1.moveCar();
-  handleTrackCollision();
+  handleTrackCollision(car1);
 }
 
 function drawAll() {
   drawTracks();
-  drawCar();
+  drawCar(carPic, car1);
 }
