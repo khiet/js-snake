@@ -2,7 +2,15 @@ const TRACK_W = 40;
 const TRACK_H = 40;
 const TRACK_ROWS = 15;
 const TRACK_COLUMNS = 20;
-let trackGrid = [
+
+const TRACK_ROAD = 0;
+const TRACK_WALL = 1;
+const TRACK_GOAL = 2;
+const TRACK_TREE = 3;
+const TRACK_FLAG = 4;
+const TRACK_PLAYERSTART = 8;
+
+let levelOneTrack = [
   3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
   3, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
   3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -19,12 +27,7 @@ let trackGrid = [
   0, 2, 0, 0, 0, 0, 1, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3,
 ];
-const TRACK_ROAD = 0;
-const TRACK_WALL = 1;
-const TRACK_GOAL = 2;
-const TRACK_TREE = 3;
-const TRACK_FLAG = 4;
-const TRACK_PLAYERSTART = 8;
+let trackGrid = [];
 
 function drawTracks() {
   let trackIndex = 0;
@@ -49,7 +52,7 @@ function handleTrackCollision(car) {
   }
 
   if (trackTypeAt(car.x, car.y) === TRACK_GOAL) {
-    console.log(car.name + ' won!');
+    loadLevel(levelOneTrack);
     return;
   }
 

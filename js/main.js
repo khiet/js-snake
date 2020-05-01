@@ -13,11 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
 function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
-
   setupInput();
+  loadLevel(levelOneTrack);
+};
+
+function loadLevel(levelTrack) {
+  trackGrid = levelTrack.slice();
   car1.resetCar('Blue Car');
   car2.resetCar('Green Car');
-};
+}
 
 function callBoth() {
   moveAll();

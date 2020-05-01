@@ -60,6 +60,7 @@ Car.prototype.moveCar = function () {
 
 Car.prototype.resetCar = function (name) {
   this.name = name;
+  this.speed = 0;
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
