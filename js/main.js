@@ -1,5 +1,6 @@
 let car1 = new Car();
 let car2 = new Car();
+let currentLevel = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
@@ -14,7 +15,7 @@ function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
   setupInput();
-  loadLevel(levelOneTrack);
+  loadLevel(trackLevels[currentLevel]);
 };
 
 function loadLevel(levelTrack) {
