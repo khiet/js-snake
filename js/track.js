@@ -10,7 +10,7 @@ let trackGrid = [
   1, 0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1,
   1, 0, 0, 1, 1, 0, 0, 1, 3, 3, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
   1, 0, 0, 1, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-  1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 4, 0, 0, 1, 0, 0, 1,
+  1, 2, 2, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 4, 0, 0, 1, 0, 0, 1,
   1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
   1, 0, 0, 1, 0, 0, 4, 0, 0, 0, 4, 0, 0, 1, 0, 0, 1, 0, 0, 1,
   1, 8, 8, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 1,
@@ -43,26 +43,21 @@ function drawTracks() {
   }
 }
 
-function isObstacleAt(x, y) {
-  let trackIndex = trackIndexAt(x, y);
-  let isObstacle = false;
-  if (trackIndex >= 0 && trackIndex < trackGrid.length) {
-    if (trackGrid[trackIndex] != TRACK_ROAD) {
-      isObstacle = true;
-    }
-  }
-
-  return isObstacle;
-}
-
 function handleTrackCollision(car) {
-  if (isObstacleAt(car.x, car.y)) {
-    car.speed *= -0.25;
-
-    // avoid getting stuck in this condition
-    car.x += Math.cos(car.ang) * car.speed;
-    car.y += Math.sin(car.ang) * car.speed;
+  if (trackTypeAt(car.x, car.y) === TRACK_ROAD) {
+    return;
   }
+
+  if (trackTypeAt(car.x, car.y) === TRACK_GOAL) {
+    console.log(car.name + ' won!');
+    return;
+  }
+
+  car.speed *= -0.25;
+
+  // avoid getting stuck in this condition
+  car.x += Math.cos(car.ang) * car.speed;
+  car.y += Math.sin(car.ang) * car.speed;
 }
 
 function trackIndexAt(x, y) {
@@ -79,4 +74,15 @@ function trackRowColumnAt(x, y) {
     row: Math.floor(y / TRACK_H),
     column: Math.floor(x / TRACK_W)
   }
+}
+
+function trackTypeAt(x, y) {
+  let trackIndex = trackIndexAt(x, y);
+  let trackType = TRACK_WALL;
+
+  if (trackIndex >= 0 && trackIndex < trackGrid.length) {
+    trackType = trackGrid[trackIndex];
+  }
+
+  return trackType;
 }

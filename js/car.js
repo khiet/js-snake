@@ -8,6 +8,8 @@ let canvas;
 let canvasContext;
 
 function Car() {
+  this.name = 'Unnamed Car';
+
   this.x = 0;
   this.y = 0;
   this.ang = 0;
@@ -24,7 +26,7 @@ function Car() {
   this.controlTurnRight;
 }
 
-Car.prototype.setupInput = function(upKey, downKey, leftKey, rightKey) {
+Car.prototype.setupInput = function (upKey, downKey, leftKey, rightKey) {
   this.controlAccelerate = upKey;
   this.controlReverse = downKey;
   this.controlTurnLeft = leftKey;
@@ -56,7 +58,8 @@ Car.prototype.moveCar = function () {
   this.y += Math.sin(this.ang) * this.speed;
 }
 
-Car.prototype.resetCar = function () {
+Car.prototype.resetCar = function (name) {
+  this.name = name;
   for (let i = 0; i < TRACK_ROWS; i++) {
     for (let j = 0; j < TRACK_COLUMNS; j++) {
       let trackIndex = trackIndexAtRowColumn(i, j);
@@ -73,6 +76,6 @@ Car.prototype.resetCar = function () {
   }
 }
 
-Car.prototype.drawCar = function(pic) {
+Car.prototype.drawCar = function (pic) {
   drawBitmapCenteredWithRotation(pic, this.x, this.y, this.ang);
 }

@@ -15,8 +15,8 @@ function startGarme() {
   setInterval(callBoth, 1000 / fps);
 
   setupInput();
-  car1.resetCar();
-  car2.resetCar();
+  car1.resetCar('Blue Car');
+  car2.resetCar('Green Car');
 };
 
 function callBoth() {
