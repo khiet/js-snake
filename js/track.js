@@ -76,7 +76,7 @@ function handleTrackCollision(car) {
     return;
   }
 
-  car.speed *= -0.25;
+  car.speed *= -0.5;
 
   // avoid getting stuck in this condition
   car.x += Math.cos(car.ang) * car.speed;
