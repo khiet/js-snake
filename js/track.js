@@ -72,7 +72,7 @@ function handleTrackCollision(car) {
   }
 
   if (trackTypeAt(car.x, car.y) === TRACK_GOAL) {
-    loadLevel(trackLevels[currentLevel]);
+    loadLevel(trackLevels[selectedTrackLevel - 1]);
     return;
   }
 

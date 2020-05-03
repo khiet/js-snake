@@ -21,10 +21,23 @@
     align-items: center;
     flex-direction: column;
   }
+
+  .track-level-select {
+    margin-top: 10px;
+  }
 </style>
 
 <body>
   <canvas id='gameCanvas' width='800' height='600'></canvas>
+  <div class="track-level-select">
+    <label class="track-level-label">
+      LEVEL
+    </label>
+    <select name="track-level" class="js-track-level-select">
+      <option value="1" selected="selected">1</option>
+      <option value="2">2</option>
+    </select>
+  </div>
 </body>
 
 </html>
