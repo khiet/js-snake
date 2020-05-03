@@ -77,10 +77,17 @@ function handleTrackCollision(car) {
   }
 
   car.speed *= -0.5;
-
   // avoid getting stuck in this condition
   car.x += Math.cos(car.ang) * car.speed;
   car.y += Math.sin(car.ang) * car.speed;
+
+  // look ahead to see if car needs to bounce back fully
+  if (trackTypeAt(car.x, car.y) !== TRACK_ROAD) {
+    car.speed *= 2;
+
+    car.x += Math.cos(car.ang) * car.speed;
+    car.y += Math.sin(car.ang) * car.speed;
+  }
 }
 
 function trackIndexAt(x, y) {
