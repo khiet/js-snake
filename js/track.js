@@ -47,27 +47,27 @@ function drawTracks() {
   }
 }
 
-function handleTrackCollision(car) {
-  if (trackTypeAt(car.x, car.y) === TRACK_ROAD) {
+function handleTrackCollision(warrior) {
+  if (trackTypeAt(warrior.x, warrior.y) === TRACK_ROAD) {
     return;
   }
 
-  if (trackTypeAt(car.x, car.y) === TRACK_GOAL) {
+  if (trackTypeAt(warrior.x, warrior.y) === TRACK_GOAL) {
     loadLevel(levelOneTrack);
     return;
   }
 
-  car.speed *= -0.5;
+  warrior.speed *= -0.5;
   // avoid getting stuck in this condition
-  car.x += Math.cos(car.ang) * car.speed;
-  car.y += Math.sin(car.ang) * car.speed;
+  warrior.x += Math.cos(warrior.ang) * warrior.speed;
+  warrior.y += Math.sin(warrior.ang) * warrior.speed;
 
-  // look ahead to see if car needs to bounce back fully
-  if (trackTypeAt(car.x, car.y) !== TRACK_ROAD) {
-    car.speed *= 2;
+  // look ahead to see if warrior needs to bounce back fully
+  if (trackTypeAt(warrior.x, warrior.y) !== TRACK_ROAD) {
+    warrior.speed *= 2;
 
-    car.x += Math.cos(car.ang) * car.speed;
-    car.y += Math.sin(car.ang) * car.speed;
+    warrior.x += Math.cos(warrior.ang) * warrior.speed;
+    warrior.y += Math.sin(warrior.ang) * warrior.speed;
   }
 }
 

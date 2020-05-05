@@ -6,34 +6,34 @@ const keyCodes = {
 }
 
 function setupInput() {
-  car1.setupInput(keyCodes.ARROW_UP, keyCodes.ARROW_DOWN, keyCodes.ARROW_LEFT, keyCodes.ARROW_RIGHT);
+  warrior1.setupInput(keyCodes.ARROW_UP, keyCodes.ARROW_DOWN, keyCodes.ARROW_LEFT, keyCodes.ARROW_RIGHT);
 
   document.addEventListener(
     'keydown',
     function (e) {
-      applyControl(e, car1, true);
+      applyControl(e, warrior1, true);
     });
 
   document.addEventListener(
     'keyup',
     function (e) {
-      applyControl(e, car1, false);
+      applyControl(e, warrior1, false);
     });
 }
 
-function applyControl(e, car, bool) {
+function applyControl(e, warrior, bool) {
   switch (e.keyCode) {
-    case car.controlTurnLeft:
-      car.turnLeft = bool;
+    case warrior.controlTurnLeft:
+      warrior.turnLeft = bool;
       break;
-    case car.controlTurnRight:
-      car.turnRight = bool;
+    case warrior.controlTurnRight:
+      warrior.turnRight = bool;
       break;
-    case car.controlAccelerate:
-      car.accelerate = bool;
+    case warrior.controlAccelerate:
+      warrior.accelerate = bool;
       break;
-    case car.controlReverse:
-      car.reverse = bool;
+    case warrior.controlReverse:
+      warrior.reverse = bool;
       break;
   }
 }

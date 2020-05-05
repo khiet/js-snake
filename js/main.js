@@ -1,4 +1,4 @@
-let car1 = new Car();
+let warrior1 = new Warrior();
 let selectedTrackLevel = 1;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,7 +19,7 @@ function startGarme() {
 
 function loadLevel(levelTrack) {
   trackGrid = levelTrack.slice();
-  car1.resetCar('Blue Car');
+  warrior1.resetWarrior('Blue Warrior');
 }
 
 function callBoth() {
@@ -28,11 +28,11 @@ function callBoth() {
 }
 
 function moveAll() {
-  car1.moveCar();
-  handleTrackCollision(car1);
+  warrior1.moveWarrior();
+  handleTrackCollision(warrior1);
 }
 
 function drawAll() {
   drawTracks();
-  car1.drawCar(car1Pic);
+  warrior1.drawWarrior(warrior1Pic);
 }

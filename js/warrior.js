@@ -7,8 +7,8 @@ const MIN_SPEED_TO_TURN = 0.5;
 let canvas;
 let canvasContext;
 
-function Car() {
-  this.name = 'Unnamed Car';
+function Warrior() {
+  this.name = 'Unnamed Warrior';
 
   this.x = 0;
   this.y = 0;
@@ -26,14 +26,14 @@ function Car() {
   this.controlTurnRight;
 }
 
-Car.prototype.setupInput = function (upKey, downKey, leftKey, rightKey) {
+Warrior.prototype.setupInput = function (upKey, downKey, leftKey, rightKey) {
   this.controlAccelerate = upKey;
   this.controlReverse = downKey;
   this.controlTurnLeft = leftKey;
   this.controlTurnRight = rightKey;
 };
 
-Car.prototype.moveCar = function () {
+Warrior.prototype.moveWarrior = function () {
   this.speed *= SPEED_DECAY_MULTIPLIER;
 
   if (this.accelerate) {
@@ -58,7 +58,7 @@ Car.prototype.moveCar = function () {
   this.y += Math.sin(this.ang) * this.speed;
 }
 
-Car.prototype.resetCar = function (name) {
+Warrior.prototype.resetWarrior = function (name) {
   this.name = name;
   this.speed = 0;
   for (let i = 0; i < TRACK_ROWS; i++) {
@@ -77,6 +77,6 @@ Car.prototype.resetCar = function (name) {
   }
 }
 
-Car.prototype.drawCar = function (pic) {
+Warrior.prototype.drawWarrior = function (pic) {
   drawBitmapCenteredWithRotation(pic, this.x, this.y, this.ang);
 }

@@ -1,5 +1,5 @@
 const trackPics = [];
-const car1Pic = document.createElement('img');
+const warrior1Pic = document.createElement('img');
 
 let imagesToLoad = 0;
 
@@ -10,7 +10,7 @@ function loadImages() {
     {trackType: TRACK_GOAL, fileName: "images/track_goal.png"},
     {trackType: TRACK_TREE, fileName: "images/track_tree.png"},
     {trackType: TRACK_FLAG, fileName: "images/track_flag.png"},
-    {pic: car1Pic, fileName: "images/car1.png"},
+    {pic: warrior1Pic, fileName: "images/warrior.png"},
   ];
 
   imagesToLoad = images.length;
@@ -19,7 +19,7 @@ function loadImages() {
     if (i.trackType !== undefined) {
       loadTrackImage(i.trackType, i.fileName);
     } else {
-      loadCarImage(i.pic, i.fileName);
+      loadWarriorImage(i.pic, i.fileName);
     }
   });
 }
@@ -30,7 +30,7 @@ function loadTrackImage(trackType, fileName) {
   trackPics[trackType].src = fileName;
 }
 
-function loadCarImage(img, fileName) {
+function loadWarriorImage(img, fileName) {
   img.onload = countImagesToLoadAndStartGameIfReadh;
   img.src = fileName;
 }
