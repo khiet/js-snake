@@ -1,5 +1,5 @@
 let warrior1 = new Warrior();
-let selectedTrackLevel = 1;
+let selectedWorldLevel = 1;
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
@@ -14,11 +14,11 @@ function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
   setupInput();
-  loadLevel(levelOneTrack);
+  loadLevel(levelOneWorld);
 };
 
-function loadLevel(levelTrack) {
-  trackGrid = levelTrack.slice();
+function loadLevel(levelWorld) {
+  worldGrid = levelWorld.slice();
   warrior1.resetWarrior('Blue Warrior');
 }
 
@@ -29,10 +29,10 @@ function callBoth() {
 
 function moveAll() {
   warrior1.moveWarrior();
-  handleTrackCollision(warrior1);
+  handleWorldCollision(warrior1);
 }
 
 function drawAll() {
-  drawTracks();
+  drawWorlds();
   warrior1.drawWarrior(warrior1Pic);
 }

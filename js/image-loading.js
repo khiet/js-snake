@@ -1,33 +1,33 @@
-const trackPics = [];
+const worldPics = [];
 const warrior1Pic = document.createElement('img');
 
 let imagesToLoad = 0;
 
 function loadImages() {
   const images = [
-    {trackType: TRACK_ROAD, fileName: "images/track_road.png"},
-    {trackType: TRACK_WALL, fileName: "images/track_wall.png"},
-    {trackType: TRACK_GOAL, fileName: "images/track_goal.png"},
-    {trackType: TRACK_TREE, fileName: "images/track_tree.png"},
-    {trackType: TRACK_FLAG, fileName: "images/track_flag.png"},
+    {worldType: WORLD_ROAD, fileName: "images/world_road.png"},
+    {worldType: WORLD_WALL, fileName: "images/world_wall.png"},
+    {worldType: WORLD_GOAL, fileName: "images/world_goal.png"},
+    {worldType: WORLD_TREE, fileName: "images/world_tree.png"},
+    {worldType: WORLD_FLAG, fileName: "images/world_flag.png"},
     {pic: warrior1Pic, fileName: "images/warrior.png"},
   ];
 
   imagesToLoad = images.length;
 
   images.forEach(function (i) {
-    if (i.trackType !== undefined) {
-      loadTrackImage(i.trackType, i.fileName);
+    if (i.worldType !== undefined) {
+      loadWorldImage(i.worldType, i.fileName);
     } else {
       loadWarriorImage(i.pic, i.fileName);
     }
   });
 }
 
-function loadTrackImage(trackType, fileName) {
-  trackPics[trackType] = document.createElement('img');
-  trackPics[trackType].onload = countImagesToLoadAndStartGameIfReadh;
-  trackPics[trackType].src = fileName;
+function loadWorldImage(worldType, fileName) {
+  worldPics[worldType] = document.createElement('img');
+  worldPics[worldType].onload = countImagesToLoadAndStartGameIfReadh;
+  worldPics[worldType].src = fileName;
 }
 
 function loadWarriorImage(img, fileName) {

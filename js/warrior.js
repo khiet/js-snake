@@ -61,16 +61,16 @@ Warrior.prototype.moveWarrior = function () {
 Warrior.prototype.resetWarrior = function (name) {
   this.name = name;
   this.speed = 0;
-  for (let i = 0; i < TRACK_ROWS; i++) {
-    for (let j = 0; j < TRACK_COLUMNS; j++) {
-      let trackIndex = trackIndexAtRowColumn(i, j);
-      if (trackGrid[trackIndex] == TRACK_PLAYERSTART) {
-        // reset track to contain only 1 or 0
-        trackGrid[trackIndex] = TRACK_ROAD;
+  for (let i = 0; i < WORLD_ROWS; i++) {
+    for (let j = 0; j < WORLD_COLUMNS; j++) {
+      let worldIndex = worldIndexAtRowColumn(i, j);
+      if (worldGrid[worldIndex] == WORLD_PLAYERSTART) {
+        // reset world to contain only 1 or 0
+        worldGrid[worldIndex] = WORLD_ROAD;
 
         this.ang = -Math.PI / 2;
-        this.x = j * TRACK_H + TRACK_H / 2;
-        this.y = i * TRACK_W + TRACK_W / 2;
+        this.x = j * WORLD_H + WORLD_H / 2;
+        this.y = i * WORLD_W + WORLD_W / 2;
         return;
       }
     }
