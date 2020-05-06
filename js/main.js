@@ -33,8 +33,10 @@ function moveAll() {
 }
 
 function drawAll() {
-  document.querySelector('.js-debug-info').textContent = `keyCount: ${warrior.keyCount}`;
-
   drawWorlds();
   warrior.drawWarrior(warriorPic);
+}
+
+function showDebugInfo() {
+  document.querySelector('.js-debug-info').textContent = `keyCount: ${warrior.keyCount}`;
 }
