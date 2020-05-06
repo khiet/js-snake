@@ -1,1 +1,1 @@
-<?php header( 'Location: /kart.html' ) ;  ?>
+<?php header( 'Location: /index.html' ) ;  ?>
