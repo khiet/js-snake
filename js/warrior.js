@@ -65,15 +65,15 @@ Warrior.prototype.rollbackWarrior = function () {
 
 Warrior.prototype.resetWarrior = function (name) {
   this.name = name;
-  for (let i = 0; i < WORLD_ROWS; i++) {
-    for (let j = 0; j < WORLD_COLUMNS; j++) {
+  for (let i = 0; i < TILE_ROWS; i++) {
+    for (let j = 0; j < TILE_COLUMNS; j++) {
       let worldIndex = worldIndexAtRowColumn(i, j);
-      if (worldGrid[worldIndex] == WORLD_PLAYERSTART) {
+      if (worldGrid[worldIndex] == TILE_PLAYERSTART) {
         // reset world to contain only 1 or 0
-        worldGrid[worldIndex] = WORLD_ROAD;
+        worldGrid[worldIndex] = TILE_ROAD;
 
-        this.x = (j * WORLD_H) + (WORLD_H / 2);
-        this.y = (i * WORLD_W) + (WORLD_W / 2);
+        this.x = (j * TILE_H) + (TILE_H / 2);
+        this.y = (i * TILE_W) + (TILE_W / 2);
         return;
       }
     }

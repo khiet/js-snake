@@ -5,11 +5,11 @@ let imagesToLoad = 0;
 
 function loadImages() {
   const images = [
-    {worldType: WORLD_ROAD, fileName: "images/world_road.png"},
-    {worldType: WORLD_WALL, fileName: "images/world_wall.png"},
-    {worldType: WORLD_GOAL, fileName: "images/world_goal.png"},
-    {worldType: WORLD_TREE, fileName: "images/world_tree.png"},
-    {worldType: WORLD_FLAG, fileName: "images/world_flag.png"},
+    {worldType: TILE_ROAD, fileName: "images/world_road.png"},
+    {worldType: TILE_WALL, fileName: "images/world_wall.png"},
+    {worldType: TILE_GOAL, fileName: "images/world_goal.png"},
+    {worldType: TILE_KEY, fileName: "images/world_key.png"},
+    {worldType: TILE_DOOR, fileName: "images/world_door.png"},
     {pic: warrior1Pic, fileName: "images/warrior.png"},
   ];
 
