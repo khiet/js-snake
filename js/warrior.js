@@ -5,6 +5,7 @@ let canvasContext;
 
 function Warrior() {
   this.name = 'Unnamed Warrior';
+  this.keyCount = 0;
 
   this.x = 0;
   this.y = 0;

@@ -1,5 +1,5 @@
 const worldPics = [];
-const warrior1Pic = document.createElement('img');
+const warriorPic = document.createElement('img');
 
 let imagesToLoad = 0;
 
@@ -10,7 +10,7 @@ function loadImages() {
     {worldType: TILE_GOAL, fileName: "images/world_goal.png"},
     {worldType: TILE_KEY, fileName: "images/world_key.png"},
     {worldType: TILE_DOOR, fileName: "images/world_door.png"},
-    {pic: warrior1Pic, fileName: "images/warrior.png"},
+    {pic: warriorPic, fileName: "images/warrior.png"},
   ];
 
   imagesToLoad = images.length;

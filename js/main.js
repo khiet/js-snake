@@ -1,4 +1,4 @@
-let warrior1 = new Warrior();
+let warrior = new Warrior();
 let selectedWorldLevel = 1;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,7 +19,7 @@ function startGarme() {
 
 function loadLevel(levelWorld) {
   worldGrid = levelWorld.slice();
-  warrior1.resetWarrior('Blue Warrior');
+  warrior.resetWarrior('Blue Warrior');
 }
 
 function callBoth() {
@@ -28,11 +28,13 @@ function callBoth() {
 }
 
 function moveAll() {
-  warrior1.moveWarrior();
-  handleWorldCollision(warrior1);
+  warrior.moveWarrior();
+  handleWorldCollision(warrior);
 }
 
 function drawAll() {
+  document.querySelector('.js-debug-info').textContent = `keyCount: ${warrior.keyCount}`;
+
   drawWorlds();
-  warrior1.drawWarrior(warrior1Pic);
+  warrior.drawWarrior(warriorPic);
 }

@@ -63,7 +63,31 @@ function handleWorldCollision(warrior) {
     return;
   }
 
+  if (worldTypeAt(warrior.x, warrior.y) === TILE_KEY) {
+    getKey(warrior);
+  }
+
+  if (worldTypeAt(warrior.x, warrior.y) === TILE_DOOR) {
+    openDoor(warrior);
+  }
+
   warrior.rollbackWarrior();
+}
+
+function getKey(warrior) {
+  const worldIndex = worldIndexAt(warrior.x, warrior.y);
+  worldGrid[worldIndex] = TILE_ROAD;
+  warrior.keyCount++;
+}
+
+function openDoor(warrior) {
+  if (warrior.keyCount < 1) {
+    return;
+  }
+
+  const worldIndex = worldIndexAt(warrior.x, warrior.y);
+  worldGrid[worldIndex] = TILE_ROAD;
+  warrior.keyCount--;
 }
 
 function worldIndexAt(x, y) {

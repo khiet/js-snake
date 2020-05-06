@@ -6,18 +6,18 @@ const keyCodes = {
 }
 
 function setupInput() {
-  warrior1.setupInput(keyCodes.ARROW_UP, keyCodes.ARROW_DOWN, keyCodes.ARROW_LEFT, keyCodes.ARROW_RIGHT);
+  warrior.setupInput(keyCodes.ARROW_UP, keyCodes.ARROW_DOWN, keyCodes.ARROW_LEFT, keyCodes.ARROW_RIGHT);
 
   document.addEventListener(
     'keydown',
     function (e) {
-      applyControl(e, warrior1, true);
+      applyControl(e, warrior, true);
     });
 
   document.addEventListener(
     'keyup',
     function (e) {
-      applyControl(e, warrior1, false);
+      applyControl(e, warrior, false);
     });
 }
 
