@@ -35,6 +35,11 @@ function drawWorlds() {
     for (let j = 0; j < TILE_COLUMNS; j++) {
       let worldType = worldGrid[worldIndex];
       let worldImage = worldPics[worldType];
+
+      if (isTransparencyFile(worldType)) {
+        drawBitmap(worldPics[TILE_ROAD], worldTileX, worldTileY);
+      }
+
       drawBitmap(worldImage, worldTileX, worldTileY);
       worldIndex++;
       worldTileX += TILE_W;
@@ -42,6 +47,10 @@ function drawWorlds() {
     worldTileX = 0;
     worldTileY += TILE_H;
   }
+}
+
+function isTransparencyFile(tileType) {
+  return [TILE_GOAL, TILE_KEY, TILE_DOOR].includes(tileType);
 }
 
 function handleWorldCollision(warrior) {
