@@ -23,17 +23,17 @@ function setupInput() {
 
 function applyControl(e, warrior, bool) {
   switch (e.keyCode) {
-    case warrior.controlTurnLeft:
-      warrior.turnLeft = bool;
+    case warrior.controlLeft:
+      warrior.left = bool;
       break;
-    case warrior.controlTurnRight:
-      warrior.turnRight = bool;
+    case warrior.controlRight:
+      warrior.right = bool;
       break;
-    case warrior.controlAccelerate:
-      warrior.accelerate = bool;
+    case warrior.controlUp:
+      warrior.forward = bool;
       break;
-    case warrior.controlReverse:
-      warrior.reverse = bool;
+    case warrior.controlDown:
+      warrior.backward = bool;
       break;
   }
 }

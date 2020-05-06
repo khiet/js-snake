@@ -26,6 +26,10 @@ function drawBitmapCenteredWithRotation(pic, x, y, angle) {
   canvasContext.restore();
 }
 
+function drawBitmapCentered(pic, x, y) {
+  canvasContext.drawImage(pic, x - pic.width / 2, y - pic.height / 2);
+}
+
 function drawBitmap(pic, x, y) {
   canvasContext.drawImage(pic, x, y);
 }
