@@ -57,18 +57,7 @@ function handleWorldCollision(warrior) {
     return;
   }
 
-  warrior.speed *= -0.5;
-  // avoid getting stuck in this condition
-  warrior.x += Math.cos(warrior.ang) * warrior.speed;
-  warrior.y += Math.sin(warrior.ang) * warrior.speed;
-
-  // look ahead to see if warrior needs to bounce back fully
-  if (worldTypeAt(warrior.x, warrior.y) !== WORLD_ROAD) {
-    warrior.speed *= 2;
-
-    warrior.x += Math.cos(warrior.ang) * warrior.speed;
-    warrior.y += Math.sin(warrior.ang) * warrior.speed;
-  }
+  warrior.rollbackWarrior();
 }
 
 function worldIndexAt(x, y) {

@@ -45,6 +45,24 @@ Warrior.prototype.moveWarrior = function () {
   }
 }
 
+Warrior.prototype.rollbackWarrior = function () {
+  if (this.forward) {
+    this.y += MOVE_STEP;
+  }
+
+  if (this.backward) {
+    this.y -= MOVE_STEP;
+  }
+
+  if (this.left) {
+    this.x += MOVE_STEP;
+  }
+
+  if (this.right) {
+    this.x -= MOVE_STEP;
+  }
+}
+
 Warrior.prototype.resetWarrior = function (name) {
   this.name = name;
   for (let i = 0; i < WORLD_ROWS; i++) {
