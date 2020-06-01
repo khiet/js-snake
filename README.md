@@ -1,1 +1,1 @@
-## A adventure racing game using canvas and javascript, playable [here](https://khiet-js-adventure.herokuapp.com/index.html)
+## A snake game using canvas and javascript, playable [here](https://khiet-js-snake.herokuapp.com/index.html)
