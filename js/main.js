@@ -1,25 +1,27 @@
-let warrior = new Warrior();
-let selectedWorldLevel = 1;
+let canvas;
+let canvasContext;
+
+let head = new Head();
+let snakeWorldIndex = 82;
+let foodWorldIndex = 150;
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
   canvasContext = canvas.getContext('2d');
 
-  colorText('Loading...', canvas.width / 2, canvas.height / 2, 'black', 64, 'center');
-
-  loadImages();
+  startGarme();
 });
 
 function startGarme() {
   let fps = 30;
   setInterval(callBoth, 1000 / fps);
   setupInput();
-  loadLevel(levelOneWorld);
+  loadWorld(baseWorld);
 };
 
-function loadLevel(levelWorld) {
-  worldGrid = levelWorld.slice();
-  warrior.resetWarrior('Blue Warrior');
+function loadWorld(world) {
+  worldGrid = world.slice();
+  head.reset(snakeWorldIndex);
 }
 
 function callBoth() {
@@ -28,15 +30,20 @@ function callBoth() {
 }
 
 function moveAll() {
-  warrior.moveWarrior();
-  handleWorldCollision(warrior);
+  head.move();
+  head.tails.forEach((tail) => tail.move());
+
+  foodWorldIndex = handleWorldCollision(head, foodWorldIndex);
 }
 
 function drawAll() {
-  drawWorlds();
-  warrior.drawWarrior(warriorPic);
+  drawBaseWorld();
+  drawFood(foodWorldIndex);
+
+  head.draw();
+  head.tails.forEach((tail) => tail.draw());
 }
 
 function showDebugInfo() {
-  document.querySelector('.js-debug-info').textContent = `keyCount: ${warrior.keyCount}`;
+  document.querySelector('.js-debug-info').textContent = `eatCount: ${head.eatCount}`;
 }

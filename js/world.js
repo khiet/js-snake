@@ -1,46 +1,48 @@
-const TILE_W = 50;
-const TILE_H = 50;
-const TILE_ROWS = 12;
-const TILE_COLUMNS = 16;
+const TILE_W = 30;
+const TILE_H = 30;
+const TILE_ROWS = 20;
+const TILE_COLUMNS = 20;
 
-const TILE_ROAD = 0;
-const TILE_WALL = 1;
-const TILE_GOAL = 2;
-const TILE_KEY = 3;
-const TILE_DOOR = 4;
-const TILE_PLAYERSTART = 8;
+const TILE_WHITE = 0;
+const TILE_BLACK = 1;
 
-let levelOneWorld = [
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 1, 1, 1, 1,
-  1, 0, 3, 0, 3, 0, 1, 0, 8, 0, 1, 0, 1, 3, 3, 1,
-  1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4, 1, 1,
-  1, 1, 1, 4, 1, 1, 1, 0, 3, 0, 1, 0, 0, 0, 1, 1,
-  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, 0, 1, 1,
-  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1,
-  1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 0, 1, 1,
-  1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1,
-  1, 0, 4, 0, 4, 0, 4, 0, 2, 0, 1, 1, 1, 1, 1, 1,
-  1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+let baseWorld = [
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+  1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
 ];
 
-let worldGrid = [];
+let worldGrid;
 
-function drawWorlds() {
+function drawBaseWorld() {
   let worldIndex = 0;
   let worldTileX = 0;
   let worldTileY = 0;
   for (let i = 0; i < TILE_ROWS; i++) {
     for (let j = 0; j < TILE_COLUMNS; j++) {
       let worldType = worldGrid[worldIndex];
-      let worldImage = worldPics[worldType];
-
-      if (isTransparencyFile(worldType)) {
-        drawBitmap(worldPics[TILE_ROAD], worldTileX, worldTileY);
+      if (worldType == TILE_WHITE) {
+        colorRect(worldTileX, worldTileY, TILE_W, TILE_H, 'whitesmoke');
+      } else if (worldType == TILE_BLACK) {
+        colorRect(worldTileX, worldTileY, TILE_W, TILE_H, 'lightgrey');
       }
-
-      drawBitmap(worldImage, worldTileX, worldTileY);
       worldIndex++;
       worldTileX += TILE_W;
     }
@@ -49,50 +51,39 @@ function drawWorlds() {
   }
 }
 
-function isTransparencyFile(tileType) {
-  return [TILE_GOAL, TILE_KEY, TILE_DOOR].includes(tileType);
+function drawFood(worldIndex) {
+  const foodPoint = worldPointAtIndex(worldIndex);
+  colorRect(foodPoint.x, foodPoint.y, TILE_W, TILE_H, 'darksalmon');
 }
 
-function handleWorldCollision(warrior) {
-  if (worldTypeAt(warrior.x, warrior.y) === TILE_ROAD) {
-    return;
+function handleWorldCollision(head, collisionIndex) {
+  if (worldIndexAt(head.x, head.y) === collisionIndex) {
+    head.eatCount++;
+    head.addTail();
+    return nextFoodIndex(collisionIndex);
   }
 
-  if (worldTypeAt(warrior.x, warrior.y) === TILE_GOAL) {
-    loadLevel(levelOneWorld);
-    return;
-  }
-
-  if (worldTypeAt(warrior.x, warrior.y) === TILE_KEY) {
-    getKey(warrior);
-  }
-
-  if (worldTypeAt(warrior.x, warrior.y) === TILE_DOOR) {
-    openDoor(warrior);
-  }
-
-  warrior.rollbackWarrior();
+  return collisionIndex;
 }
 
-function getKey(warrior) {
-  const worldIndex = worldIndexAt(warrior.x, warrior.y);
-  worldGrid[worldIndex] = TILE_ROAD;
-  warrior.keyCount++;
-}
-
-function openDoor(warrior) {
-  if (warrior.keyCount < 1) {
-    return;
+function nextFoodIndex(currentIndex) {
+  let foodIndex = Math.floor(Math.random() * TILE_ROWS * TILE_COLUMNS);
+  while (foodIndex === currentIndex) {
+    foodIndex = Math.floor(Math.random() * TILE_ROWS * TILE_COLUMNS);
   }
-
-  const worldIndex = worldIndexAt(warrior.x, warrior.y);
-  worldGrid[worldIndex] = TILE_ROAD;
-  warrior.keyCount--;
+  return foodIndex;
 }
 
 function worldIndexAt(x, y) {
   let worldRowColumn = worldRowColumnAt(x, y);
   return worldIndexAtRowColumn(worldRowColumn.row, worldRowColumn.column);
+}
+
+function worldPointAtIndex(index) {
+  return {
+    x: TILE_W * (index % (TILE_COLUMNS)),
+    y: TILE_H * Math.floor((index / TILE_ROWS))
+  };
 }
 
 function worldIndexAtRowColumn(row, column) {
@@ -108,7 +99,7 @@ function worldRowColumnAt(x, y) {
 
 function worldTypeAt(x, y) {
   let worldIndex = worldIndexAt(x, y);
-  let worldType = TILE_WALL;
+  let worldType;
 
   if (worldIndex >= 0 && worldIndex < worldGrid.length) {
     worldType = worldGrid[worldIndex];

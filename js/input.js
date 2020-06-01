@@ -1,39 +1,56 @@
-const keyCodes = {
-  ARROW_LEFT: 37,
-  ARROW_UP: 38,
-  ARROW_RIGHT: 39,
-  ARROW_DOWN: 40,
+const moveKeyCodes = {
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
 }
 
 function setupInput() {
-  warrior.setupInput(keyCodes.ARROW_UP, keyCodes.ARROW_DOWN, keyCodes.ARROW_LEFT, keyCodes.ARROW_RIGHT);
-
   document.addEventListener(
     'keydown',
     function (e) {
-      applyControl(e, warrior, true);
-    });
-
-  document.addEventListener(
-    'keyup',
-    function (e) {
-      applyControl(e, warrior, false);
-    });
+      if (hasDirectionChanged(e, head)) {
+        sendCommand(e, head);
+      }
+    }
+  );
 }
 
-function applyControl(e, warrior, bool) {
-  switch (e.keyCode) {
-    case warrior.controlLeft:
-      warrior.left = bool;
+function hasDirectionChanged(e, head) {
+  return e.keyCode !== head.direction;
+}
+
+function sendCommand(e, head) {
+  // sends a command to act on at a next tile
+  const nextMoveIndex = nextMoveWorldIndex(head);
+  const nextMovePoint = worldPointAtIndex(nextMoveIndex);
+  const command = {
+    direction: e.keyCode,
+    x: nextMovePoint.x,
+    y: nextMovePoint.y
+  };
+  head.command = command
+
+  console.table(head.command);
+}
+
+function nextMoveWorldIndex(head) {
+  let nextMoveWorldIndex;
+
+  switch (head.direction) {
+    case moveKeyCodes.LEFT:
+      nextMoveWorldIndex = worldIndexAt(head.x, head.y);
       break;
-    case warrior.controlRight:
-      warrior.right = bool;
+    case moveKeyCodes.RIGHT:
+      nextMoveWorldIndex = worldIndexAt(head.x + TILE_W, head.y);
       break;
-    case warrior.controlUp:
-      warrior.forward = bool;
+    case moveKeyCodes.UP:
+      nextMoveWorldIndex = worldIndexAt(head.x, head.y);
       break;
-    case warrior.controlDown:
-      warrior.backward = bool;
+    case moveKeyCodes.DOWN:
+      nextMoveWorldIndex = worldIndexAt(head.x, head.y + TILE_H);
       break;
   }
+
+  return nextMoveWorldIndex;
 }
