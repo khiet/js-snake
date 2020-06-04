@@ -1,4 +1,4 @@
-const MOVE_STEP = 3;
+const MOVE_STEP = 5;
 
 function Head() {
   this.eatCount = 0;
@@ -10,9 +10,15 @@ function Head() {
 
   this.direction;
   this.command;
+
+  this.dead = false;
 }
 
 Head.prototype.move = function () {
+  if (this.dead) {
+    return;
+  }
+
   if (!this.command) {
     return;
   }
@@ -22,7 +28,7 @@ Head.prototype.move = function () {
 
     // send a command for tails for their next move
     const followCommand = {
-      direction: this.command.direction,
+      direction: this.direction,
       x: this.x,
       y: this.y,
     };
@@ -48,10 +54,9 @@ Head.prototype.move = function () {
   }
 }
 
-Head.prototype.reset = function (worldIndex) {
-  const snakePoint = worldPointAtIndex(worldIndex);
-  this.x = snakePoint.x;
-  this.y = snakePoint.y;
+Head.prototype.reset = function (x, y) {
+  this.x = x;
+  this.y = y;
   colorRect(this.x, this.y, TILE_W, TILE_H, 'cadetblue');
 
   this.initTail();
@@ -86,10 +91,32 @@ Head.prototype.addTail = function () {
 Head.prototype.initTail = function () {
   const lastBody = this.tails[this.tails.length - 1] || this;
 
-  tail = new Tail(lastBody.x, lastBody.y - TILE_H);
+  tail = new Tail(lastBody.x - TILE_W, lastBody.y);
   this.tails.push(tail);
 }
 
 Head.prototype.draw = function () {
   colorRect(this.x, this.y, TILE_W, TILE_H, 'cadetblue');
+}
+
+// when moving right or down, the head.x and head.y are 'behind' by one tile, so use collidablePoint to adjust the point for a collision
+Head.prototype.collidablePoint = function () {
+  let collidablePoint = {x: this.x, y: this.y};
+
+  switch (head.direction) {
+    case moveKeyCodes.RIGHT:
+      collidablePoint.x = head.x + TILE_W - MOVE_STEP;
+      break;
+    case moveKeyCodes.DOWN:
+      collidablePoint.y = head.y + TILE_H - MOVE_STEP;
+      break;
+  }
+
+  return collidablePoint;
+}
+
+Head.prototype.die = function () {
+  this.dead = true;
+  this.tails.forEach((tail) => tail.die());
+  console.error('DEAD');
 }

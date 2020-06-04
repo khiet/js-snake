@@ -5,15 +5,45 @@ const moveKeyCodes = {
   DOWN: 40,
 }
 
+const oppositeDirections = {
+  [moveKeyCodes.LEFT]: moveKeyCodes.RIGHT,
+  [moveKeyCodes.UP]: moveKeyCodes.DOWN,
+  [moveKeyCodes.RIGHT]: moveKeyCodes.LEFT,
+  [moveKeyCodes.DOWN]: moveKeyCodes.UP
+}
+
 function setupInput() {
   document.addEventListener(
     'keydown',
     function (e) {
-      if (hasDirectionChanged(e, head)) {
+      if (validInput(e, head)) {
         sendCommand(e, head);
       }
     }
   );
+}
+
+function validInput(e, head) {
+  return allowedDirectionAtStart(e, head) &&
+    allowedKeyCode(e) &&
+    allowedDirection(e, head) &&
+    hasDirectionChanged(e, head);
+}
+
+function allowedKeyCode(e) {
+  return Object.values(moveKeyCodes).includes(e.keyCode);
+}
+
+function allowedDirection(e, head) {
+  return oppositeDirections[e.keyCode] !== head.direction;
+}
+
+function allowedDirectionAtStart(e, head) {
+  if (head.command) {
+    return true;
+  }
+
+  return e.keyCode !== moveKeyCodes.LEFT;
 }
 
 function hasDirectionChanged(e, head) {

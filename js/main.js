@@ -2,8 +2,8 @@ let canvas;
 let canvasContext;
 
 let head = new Head();
-let snakeWorldIndex = 82;
-let foodWorldIndex = 150;
+const headWorkdIndex = 145;
+let foodWorldIndex = 154;
 
 document.addEventListener('DOMContentLoaded', function () {
   canvas = document.getElementById("gameCanvas");
@@ -21,18 +21,24 @@ function startGarme() {
 
 function loadWorld(world) {
   worldGrid = world.slice();
-  head.reset(snakeWorldIndex);
+
+  const snakePoint = worldPointAtIndex(headWorkdIndex);
+  head.reset(snakePoint.x, snakePoint.y);
 }
 
 function callBoth() {
   moveAll();
   drawAll();
+  handleCollision();
+  showDebugInfo();
 }
 
 function moveAll() {
   head.move();
   head.tails.forEach((tail) => tail.move());
+}
 
+function handleCollision() {
   foodWorldIndex = handleWorldCollision(head, foodWorldIndex);
 }
 

@@ -4,16 +4,22 @@ function Tail(x, y) {
 
   this.direction;
   this.commands = [];
+
+  this.dead = false;
 }
 
 Tail.prototype.move = function () {
+  if (this.dead) {
+    return;
+  }
+
   if (!this.direction && !this.hasCommand()) {
     return;
   }
 
   if (!this.direction) {
     // tail always moves down until it executes a command
-    this.direction = moveKeyCodes.DOWN;
+    this.direction = moveKeyCodes.RIGHT;
   } else if (this.hasCommand() && this.commands[0].x === this.x && this.commands[0].y === this.y) {
     this.direction = this.commands[0].direction;
     this.commands.shift();
@@ -41,4 +47,8 @@ Tail.prototype.draw = function () {
 
 Tail.prototype.hasCommand = function () {
   return this.commands.length > 0;
+}
+
+Tail.prototype.die = function () {
+  this.dead = true;
 }
