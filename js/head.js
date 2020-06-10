@@ -1,122 +1,104 @@
 const MOVE_STEP = 5;
 
-function Head() {
-  this.eatCount = 0;
-
-  this.x;
-  this.y;
-
-  this.tails = [];
-
-  this.direction;
-  this.command;
-
-  this.dead = false;
-}
-
-Head.prototype.move = function () {
-  if (this.dead) {
-    return;
+class Head {
+  constructor(opts = {}) {
+    this.eatCount = opts.eatCount || 0;
+    this.x = opts.x;
+    this.y = opts.y;
+    this.height = opts.height;
+    this.tails = opts.tails || [];
+    this.direction = opts.direction;
+    this.command = opts.command;
+    this.dead = opts.dead || false;
   }
+  move() {
+    if (this.dead || !this.command) {
+      return;
+    }
 
-  if (!this.command) {
-    return;
+    if (!this.direction) {
+      this.direction = this.command.direction;
+      // send a command for tails for their next move
+      const followCommand = {
+        direction: this.direction,
+        x: this.x,
+        y: this.y,
+      };
+      this.tails.forEach((tail) => tail.commands.push(followCommand));
+    }
+    // when head arrives at a postion of the command, update the direction
+    // and inform the tails about their next move
+    else if (this.command.x === this.x && this.command.y === this.y) {
+      this.direction = this.command.direction;
+      this.tails.forEach((tail) => tail.commands.push(this.command));
+    }
+
+    switch (this.direction) {
+      case moveKeyCodes.LEFT:
+        this.x -= MOVE_STEP;
+        break;
+      case moveKeyCodes.RIGHT:
+        this.x += MOVE_STEP;
+        break;
+      case moveKeyCodes.UP:
+        this.y -= MOVE_STEP;
+        break;
+      case moveKeyCodes.DOWN:
+        this.y += MOVE_STEP;
+        break;
+    }
   }
+  reset(opts) {
+    this.x = opts.x;
+    this.y = opts.y;
+    this.height = opts.height;
 
-  if (!this.direction) {
-    this.direction = this.command.direction;
-
-    // send a command for tails for their next move
-    const followCommand = {
-      direction: this.direction,
-      x: this.x,
-      y: this.y,
-    };
-    head.tails.forEach((tail) => tail.commands.push(followCommand));
-  } else if (this.command.x === this.x && this.command.y === this.y) {
-    this.direction = this.command.direction;
-    head.tails.forEach((tail) => tail.commands.push(this.command));
+    const initTail = (function () {
+      const lastBody = this.tails[this.tails.length - 1] || this;
+      const tail = new Tail({x: lastBody.x - this.height, y: lastBody.y, height: this.height});
+      this.tails.push(tail);
+    }).bind(this);
+    initTail();
+    initTail();
   }
-
-  switch (this.direction) {
-    case moveKeyCodes.LEFT:
-      this.x -= MOVE_STEP;
-      break;
-    case moveKeyCodes.RIGHT:
-      this.x += MOVE_STEP;
-      break;
-    case moveKeyCodes.UP:
-      this.y -= MOVE_STEP;
-      break;
-    case moveKeyCodes.DOWN:
-      this.y += MOVE_STEP;
-      break;
+  addTail() {
+    const lastTail = this.tails[this.tails.length - 1];
+    let tailOpts = {direction: lastTail.direction, height: this.height};
+    // set next tail point and direction and commands from last tail
+    switch (lastTail.direction) {
+      case moveKeyCodes.LEFT:
+        tailOpts = {x: lastTail.x + this.height, y: lastTail.y, ...tailOpts};
+        break;
+      case moveKeyCodes.RIGHT:
+        tailOpts = {x: lastTail.x - this.height, y: lastTail.y, ...tailOpts};
+        break;
+      case moveKeyCodes.UP:
+        tailOpts = {x: lastTail.x, y: lastTail.y + this.height, ...tailOpts};
+        break;
+      case moveKeyCodes.DOWN:
+        tailOpts = {x: lastTail.x, y: lastTail.y - this.height, ...tailOpts};
+        break;
+    }
+    const tail = new Tail(tailOpts);
+    lastTail.commands.forEach((command) => tail.commands.push(command));
+    this.tails.push(tail);
   }
-}
-
-Head.prototype.reset = function (x, y) {
-  this.x = x;
-  this.y = y;
-  colorRect(this.x, this.y, TILE_W, TILE_H, 'cadetblue');
-
-  this.initTail();
-  this.initTail();
-}
-
-Head.prototype.addTail = function () {
-  const lastTail = this.tails[this.tails.length - 1];
-
-  let tail;
-  // set next tail point and direction and commands from last tail
-  switch (lastTail.direction) {
-    case moveKeyCodes.LEFT:
-      tail = new Tail(lastTail.x + TILE_W, lastTail.y);
-      break;
-    case moveKeyCodes.RIGHT:
-      tail = new Tail(lastTail.x - TILE_W, lastTail.y);
-      break;
-    case moveKeyCodes.UP:
-      tail = new Tail(lastTail.x, lastTail.y + TILE_H);
-      break;
-    case moveKeyCodes.DOWN:
-      tail = new Tail(lastTail.x, lastTail.y - TILE_H);
-      break;
+  // when moving right or down, the head.x and head.y are 'behind' by one tile, so use collidablePoint to adjust the point for a collision (-1 to avoid entering the collision point too early by crossing into the next tile)
+  collidablePoint() {
+    const collidablePoint = {x: this.x, y: this.y};
+    switch (this.direction) {
+      case moveKeyCodes.RIGHT:
+        collidablePoint.x = this.x + this.height - 1;
+        break;
+      case moveKeyCodes.DOWN:
+        collidablePoint.y = this.y + this.height - 1;
+        break;
+    }
+    return collidablePoint;
   }
-  tail.direction = lastTail.direction;
-  lastTail.commands.forEach((command) => tail.commands.push(command));
-
-  this.tails.push(tail);
-}
-
-Head.prototype.initTail = function () {
-  const lastBody = this.tails[this.tails.length - 1] || this;
-
-  tail = new Tail(lastBody.x - TILE_W, lastBody.y);
-  this.tails.push(tail);
-}
-
-Head.prototype.draw = function () {
-  colorRect(this.x, this.y, TILE_W, TILE_H, 'cadetblue');
-}
-
-// when moving right or down, the head.x and head.y are 'behind' by one tile, so use collidablePoint to adjust the point for a collision
-Head.prototype.collidablePoint = function () {
-  let collidablePoint = {x: this.x, y: this.y};
-
-  switch (head.direction) {
-    case moveKeyCodes.RIGHT:
-      collidablePoint.x = head.x + TILE_W - MOVE_STEP;
-      break;
-    case moveKeyCodes.DOWN:
-      collidablePoint.y = head.y + TILE_H - MOVE_STEP;
-      break;
+  die() {
+    this.dead = true;
+    this.tails.forEach((tail) => tail.die());
+    console.error('DEAD');
   }
-
-  return collidablePoint;
-}
-
-Head.prototype.die = function () {
-  this.dead = true;
-  this.tails.forEach((tail) => tail.die());
-  console.error('DEAD');
 }

@@ -1,3 +1,5 @@
+// dependencies world, head
+
 const moveKeyCodes = {
   LEFT: 37,
   UP: 38,
@@ -12,33 +14,46 @@ const oppositeDirections = {
   [moveKeyCodes.DOWN]: moveKeyCodes.UP
 }
 
-function setupInput() {
+function setupInput(world, head) {
   document.addEventListener(
     'keydown',
     function (e) {
-      if (validInput(e, head)) {
-        sendCommand(e, head);
+      if (_validInput(e, head)) {
+        _sendCommand(e, world, head);
       }
     }
   );
 }
 
-function validInput(e, head) {
-  return allowedDirectionAtStart(e, head) &&
-    allowedKeyCode(e) &&
-    allowedDirection(e, head) &&
-    hasDirectionChanged(e, head);
+function _validInput(e, head) {
+  return _allowedDirectionAtStart(e, head) &&
+    _allowedKeyCode(e) &&
+    _allowedDirection(e, head) &&
+    _hasDirectionChanged(e, head);
 }
 
-function allowedKeyCode(e) {
+function _sendCommand(e, world, head) {
+  // sends a command to act on at a next tile
+  const point = _nextMoveWorldPoint(world, head);
+  const command = {
+    direction: e.keyCode,
+    x: point.x,
+    y: point.y
+  };
+  head.command = command
+
+  console.table(head.command);
+}
+
+function _allowedKeyCode(e) {
   return Object.values(moveKeyCodes).includes(e.keyCode);
 }
 
-function allowedDirection(e, head) {
+function _allowedDirection(e, head) {
   return oppositeDirections[e.keyCode] !== head.direction;
 }
 
-function allowedDirectionAtStart(e, head) {
+function _allowedDirectionAtStart(e, head) {
   if (head.command) {
     return true;
   }
@@ -46,39 +61,30 @@ function allowedDirectionAtStart(e, head) {
   return e.keyCode !== moveKeyCodes.LEFT;
 }
 
-function hasDirectionChanged(e, head) {
+function _hasDirectionChanged(e, head) {
   return e.keyCode !== head.direction;
 }
 
-function sendCommand(e, head) {
-  // sends a command to act on at a next tile
-  const nextMoveIndex = nextMoveWorldIndex(head);
-  const nextMovePoint = worldPointAtIndex(nextMoveIndex);
-  const command = {
-    direction: e.keyCode,
-    x: nextMovePoint.x,
-    y: nextMovePoint.y
-  };
-  head.command = command
-
-  console.table(head.command);
+function _nextMoveWorldPoint(world, head) {
+  const nextMoveIndex = _nextMoveWorldIndex(world, head);
+  return world.worldPointAtIndex(nextMoveIndex);
 }
 
-function nextMoveWorldIndex(head) {
+function _nextMoveWorldIndex(world, head) {
   let nextMoveWorldIndex;
 
   switch (head.direction) {
     case moveKeyCodes.LEFT:
-      nextMoveWorldIndex = worldIndexAt(head.x, head.y);
+      nextMoveWorldIndex = world.worldIndexAt(head.x, head.y);
       break;
     case moveKeyCodes.RIGHT:
-      nextMoveWorldIndex = worldIndexAt(head.x + TILE_W, head.y);
+      nextMoveWorldIndex = world.worldIndexAt(head.x + world.tile_w, head.y);
       break;
     case moveKeyCodes.UP:
-      nextMoveWorldIndex = worldIndexAt(head.x, head.y);
+      nextMoveWorldIndex = world.worldIndexAt(head.x, head.y);
       break;
     case moveKeyCodes.DOWN:
-      nextMoveWorldIndex = worldIndexAt(head.x, head.y + TILE_H);
+      nextMoveWorldIndex = world.worldIndexAt(head.x, head.y + world.tile_h);
       break;
   }
 

@@ -4,18 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Snake</title>
+  <script src="js/input.js"></script>
+  <script src="js/tail.js"></script>
+  <script src="js/head.js"></script>
+
+  <script src="js/world.js"></script>
+
+  <script src="js/collision.js"></script>
 
   <script src="js/graphics-common.js"></script>
-  <script src="js/head.js"></script>
-  <script src="js/tail.js"></script>
-  <script src="js/world.js"></script>
-  <script src="js/input.js"></script>
+  <script src="js/drawing.js"></script>
+
   <script src="js/main.js"></script>
 </head>
 
 <style>
-  body {
+  .game-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,8 +33,10 @@
 </style>
 
 <body>
-  <canvas id='gameCanvas' width='600' height='600'></canvas>
-  <div class="debug-info js-debug-info"></div>
+  <div class="game-container">
+    <canvas id='gameCanvas' width='600' height='600'></canvas>
+    <div class="debug-info js-debug-info"></div>
+  </div>
 </body>
 
 </html>

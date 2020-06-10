@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+  <!-- BEGIN mocha -->
+  <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/mocha/mocha.js"></script>
+  <script src="https://unpkg.com/chai-spies/chai-spies.js"></script>
+  <!-- END mocha -->
+
+  <script src="js/input.js"></script>
+  <script src="js/tail.js"></script>
+  <script src="js/head.js"></script>
+
+  <script src="js/world.js"></script>
+
+  <script src="js/collision.js"></script>
+
+  <script src="js/graphics-common.js"></script>
+  <script src="js/drawing.js"></script>
+</head>
+
+<body>
+  <div id="mocha"></div>
+
+  <script class="mocha-init">
+    mocha.setup({ui: 'bdd', global: ['tail']});
+    mocha.checkLeaks();
+  </script>
+  <script src="js/test/world.js"></script>
+  <script src="js/test/collision.js"></script>
+  <script src="js/test/head.js"></script>
+  <script src="js/test/tail.js"></script>
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

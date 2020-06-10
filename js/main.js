@@ -1,8 +1,9 @@
 let canvas;
 let canvasContext;
 
-let head = new Head();
-const headWorkdIndex = 145;
+const head = new Head();
+const world = new World();
+const intialHeadWorldIndex = 145;
 let foodWorldIndex = 154;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,23 +14,27 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function startGarme() {
-  let fps = 30;
+  const fps = 30;
   setInterval(callBoth, 1000 / fps);
-  setupInput();
-  loadWorld(baseWorld);
+
+  head.canvasContext = canvasContext;
+  world.canvasContext = canvasContext;
+  setupInput(world, head);
+  resetHead(world, head);
+
+  drawSnakePart(head, 'cadetblue');
 };
 
-function loadWorld(world) {
-  worldGrid = world.slice();
-
-  const snakePoint = worldPointAtIndex(headWorkdIndex);
-  head.reset(snakePoint.x, snakePoint.y);
+function resetHead(world, head) {
+  const point = world.worldPointAtIndex(intialHeadWorldIndex);
+  head.reset({x: point.x, y: point.y, height: world.tile_h});
 }
 
 function callBoth() {
   moveAll();
   drawAll();
-  handleCollision();
+  foodWorldIndex = Collision.handleCollision(world, head, foodWorldIndex);
+
   showDebugInfo();
 }
 
@@ -38,16 +43,12 @@ function moveAll() {
   head.tails.forEach((tail) => tail.move());
 }
 
-function handleCollision() {
-  foodWorldIndex = handleWorldCollision(head, foodWorldIndex);
-}
-
 function drawAll() {
-  drawBaseWorld();
-  drawFood(foodWorldIndex);
+  drawGrid(world);
+  drawFood(world, foodWorldIndex);
 
-  head.draw();
-  head.tails.forEach((tail) => tail.draw());
+  drawSnakePart(head, 'cadetblue')
+  head.tails.forEach((tail) => drawSnakePart(tail, 'steelblue'));
 }
 
 function showDebugInfo() {
